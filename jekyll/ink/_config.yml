@@ -1,0 +1,51 @@
+name:               "tkhwang"
+description:        "Random Thought, Technology, Book, Photo and My Life..."
+
+url:                ""
+author:             "tkhwang"
+email:              "tkhwang@gmail.com"
+gravatar_hash:      "404065c7a9e2ea731f3f4be9fb1adc4c"
+twitter:            "tkhwang"
+email:              "tkhwang@gmail.com"
+github:             "tkhwang"
+#pinterest:          "jhondoe"
+#linkedin:           "jhondoe"
+#facebook:           "jhondoe"
+
+disqus_shortname:   "tkhwang-kr"
+
+background:         "https://picsum.photos/200/300?image=961"
+
+paginate:           5
+paginate_path:      "/page:num/"
+
+baseurl:            ""
+permalink:          /:year/:month/:day/:title/
+
+markdown:           kramdown
+
+#nav:
+#  - name:           "About"
+#    href:           "/about"
+#  - name:           "Download"
+#    href:           "/releases"
+
+sass:
+  style:            :compressed
+
+defaults:
+  -
+    scope:
+      path:         ""
+      type:         "pages"
+    values:
+      layout:       "page"
+  -
+    scope:
+      path:         ""
+      type:         "posts"
+    values:
+      layout:       "post"
+
+gems:
+  - jekyll-paginate

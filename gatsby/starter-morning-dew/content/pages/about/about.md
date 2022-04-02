@@ -1,0 +1,105 @@
+---
+title: 'About ?'
+slug: about
+cover: ./masaaki-komori-569059-unsplash.jpg
+date: 2019-05-22
+language: en
+disqus: true
+type: page
+---
+
+### Who am I ?
+
+![img](https://avatars2.githubusercontent.com/u/365500?s=150&v=4)
+
+[PGP@keybase](https://keybase.io/tkhwang)
+
+```
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: Keybase OpenPGP v2.1.0
+Comment: https://keybase.io/crypto
+
+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
+=ugAh
+-----END PGP PUBLIC KEY BLOCK-----
+```
+
+## Supari 守破離
+
+이 어원은 불교에서 나온 것으로 전해지나 검도에서 기본으로 사용하는 개념으로 배움으로 시작해서 고수가 되는 과정을 3단계의 개념으로 정리되었다.
+
+- 수파리의 첫 번째 단계인 '수( 守 )'
+  - 가르침을 지킨다'는 의미로 사부가 가르친 기본을 철저하게 연마하기 위해 지루한 반복을 거듭하는 단계다. 여기서 지루한 반복은 어제와 비슷한 단순 반복이 아니라 들뢰즈 용어로 이야기하면 어제와 다른 차이를 지속적으로 생성하는 다른 반복이다.
+- 두 번째 '파( 破 )'
+  - 원칙과 기본기를 바탕으로 자신의 개성에 따라 독창적인 응용 기술을 창조하는 단계다.
+- 마지막 단계인 '리( 離 )'
+  - 모든 것에 얽매이지 않고 새로운 신기의 세계로 입문하면서 스승과 이별하는 단계다. 스승보다 나은 청출어람( 靑出於藍 )의 단계로 도약하는 단계다. 기본기를 닦는 수의 단계를 거쳐 창조적 응용 동작을 하는 파의 단계를 통과하면 비로소 자신만의 독창적인 비밀병기로 스승과는 또 다른 길로 입문하는 리의 단계, 그 끝은 없다. 영원히 순환하고 반복될 뿐이다. 하지만 이전과 다른 차이를 발생시키면서 어제보다 조금씩 더 아름다워지기 위해 애쓰는 영원한 미완성 교향곡인 셈이다.
