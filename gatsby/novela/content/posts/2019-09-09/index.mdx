@@ -1,0 +1,208 @@
+---
+title: 객체지향 생활 체조 (from 소트웍스 앤솔러지)
+slug: 2019-09-09-thoughtworks-oop-practice
+author: tkhwang
+date: 2019-09-09
+hero: ./enrapture-captivating-media-0RTKeo-TIYU-unsplash.jpg
+excerpt: 예전에 읽었던 알라딘 "소트웍스 앤솔러지 소프트웨어 기술과 혁신에 관한 에세이 by 마틴 파울러"
+---
+
+요즘 clean code 작성해보려고 여러가지 자료를 살펴보고 있다.
+
+예전에 대충 읽긴 했지만 그때는 잘 모르고, 글자만 보던 시절이라서 OOP 관련된 **객체지향 생활 체조**라는 chapter.9 내용을 다시 읽어보면서 정리해본다.
+반드시 숙지하고, 이에 따라서 멋진 clean code 쓰고 싶다...
+
+# TL; DR
+
+1. 한 메서드에 오직 한 단계의 들여쓰기만 한다.
+2. `else` 예약어 keyword를 쓰지 않는다.
+3. 모든 원시값과 문자열을 포장한다.
+4. 한 줄에 점을 하나만 찍는다.
+5. 줄여쓰지 않는다 (축약금지).
+6. 모든 엔티티를 작게 유지한다.
+7. 2개 이상의 인스턴스 변수를 가진 클래스를 쓰지 않는다.
+8. 제일 클래스 (first class) 콜렉션을 쓴다.
+9. `getter/setter/property`를 쓰지 않는다.
+
+## Intro
+
+좋은 설계의 바탕에 있는 핵심 개념은 쉽게 알 수 있다.
+7가지 코드 품질 항목
+
+- 응집력
+- 느슨한 결합
+- 무중복
+- 캡슐화
+- 테스트 가능성
+- 가독성
+- 촛점
+
+## 1. 한 메서드에 오직 한 단계의 들여쓰기만 한다.
+
+- 한 메서드 안에 중첩된 제어 구조가 있다면 다단계의 추상화를 코드를 짠 것이며, 고로 한 가지 이상의 일을 하고 있다는 뜻이다.
+- 각 유닛이 더 작아짐에 따라서 재사용의 수준은 기하급수적으로 상승하기 시작한다.
+- 규칙을 적용하는 연습을 많이 할 수록, 더 많은 결실을 거두게 된다. 규칙을 적용하는 데에도 기술이 있으며 이는 프로그래머의 솜씨를 한 차원 높여준다.
+
+#### before
+
+```java
+class Board {
+  ...
+  String board() {
+    StringBuffer buf = new StringBuffer();
+    for (int i = 0; i < 10; i++) {
+      for (int j = 0; j < 10; j++) {
+        buf.append(data[i][j]);
+      }
+      buf.append("\n");
+    }
+    return buf.toString();
+  }
+}
+```
+
+#### after
+
+```java
+Class Board {
+  ...
+  String board() {
+    StringBuffer buf = new StringBuffer();
+    collectRows(buf);
+    return buf.toString();
+  }
+
+  void collectRows(StringBuffer buf) {
+    for (int i = 0; i < 10; i++) {
+      collectRows(buf, i);
+    }
+  }
+
+  void collectRow(StringBuffer buf, int row) {
+    for (int i = 0; i < 10; i++) {
+      buf.append(data[row][i]);
+    }
+    buf.append("\n");
+  }
+}
+```
+
+## 2. `else` 예약어 keyword를 쓰지 않는다.
+
+- 리팩터링보다는 그냥 기존 조건문에 분기를 하나 더 치기가 무척 쉽다.
+- 조건문은 곧잘 복제의 원흉이기도 하다.
+- `return`문을 일찍 쓰는 것을 너무 많이 하면 간결함을 저해하기 쉽다는 점을 간과해서는 안 된다.
+- 객체지향 언어는 다형성이라는 강력한 도구를 통해 복잡한 조건문을 처리할 수 있다. 간단한 경우라면 보호절 (`guard clause`)과 조기 반환 (`early return`)으로 대체 가능하다.
+
+#### before
+
+```java
+public static void endMe() {
+  if (status === DONE) {
+    doSomething();
+  } else {
+    <other code>
+  }
+}
+```
+
+#### after
+
+```java
+public static void endMe() {
+  if (status === DONE) {
+    doSomething();
+    return;
+  }
+
+  <other code>
+}
+```
+
+#### before
+
+```java
+public static Node head() {
+  if (isAdvancing()) return first;
+  else return last;
+}
+```
+
+#### after
+
+```java
+public static Node head() {
+  return isAdvancing() ? first : last;
+}
+```
+
+## 3. 모든 원시값과 문자열을 포장한다.
+
+- int 값 하나 자체는 그냥 아무 의미 없는 스칼라 값일 뿐이다. 어떤 메서드가 int 값을 매개변수로 받는다면 그 메서드 이름은 해당 매개변수의 의도를 나타내기 위해 모든 수단과 방법을 가리지 않아야 한다. 만약 똑같은 메서드가 시간을 매개변수로 받을 경우, 무슨 일이 생기는지는 훨씬 자명하다. 이런 작은 객체가 프로그램의 유지보수성을 높일 수 있는 것은 시간 값을 매개변수로 받는 메서드에게 연도 값을 넘길 수는 없기 때문이다.
+- 원시형 변수로는 컴파일러가 의미적으로 맞는 프로그램 작성을 안내할 수 없다.
+- 객체로라면 아주 사소하더라도 컴파일러와 프로그래머에게 그 값이 어떤 값이며, 왜 쓰고 있는지에 대한 정보를 전하는 셈이다.
+
+또한 시간이나 돈과 같은 작은 객체는 행위를 놓을 분명한 곳을 마련해 줘서, 그렇지 않았다면 다른 클래스의 주위를 겉돌았을지도 모르는 사태를 방지한다. 이는 특히 게터와 세터에 관련된 규칙을 적용하고 그런 작은 객체만이 값에 접근할 수 있을 때 그렇다.
+
+## 4. 한 줄에 점을 하나만 찍는다.
+
+- 여러 개의 점이 들어 있는 코드 몇 줄을 들여다보기 시작하면, 책임소재의 오류를 많이 발견하기 시작한다.
+- 어떠한 코드 한 줄에서라도 점이 하나 이상 있으면 그른 곳에서 동작이 일어나고 있다는 뜻이다.
+- 디미터의 법칙 ("친구하고만 대화하라")이 좋은 출발점이긴 하지만, 이런 식으로 생각하자. 자기 소유의 장난감, 자기가 만든 장남간, 그리고 누군가 자기에게 준 장남감하고만 놀 수 있다. 하지만 **절대 장남감의 장남감과 놀면 안 된다.**
+- 메서드 이름은 이 멋진 신세계에서 주석의 자리를 대신 하니, 자 이제 **이름 짓기에 시간을 투자하자.**.
+
+## 5. 줄여쓰지 않는다 (축약금지).
+
+- 클래스, 메서드, 또는 변수의 이름을 줄이려는 유혹에 곧잘 빠지곤 한다. 그런 유혹을 뿌리쳐라.
+- 축약은 혼란을 야기하며, 더 큰 문제를 숨기는 경향이 있다.
+- 이 휸련을 위해 모든 엔티티는 한두 단어로 된 이름을 축약없이 가져야 한다.
+
+## 6. 모든 엔티티를 작게 유지한다.
+
+- 이 말은 50줄 이상 되는 클래스와 10개 파일 이상되는 패키지는 없어야 한다는 뜻이다.
+
+## 7. 2개 이상의 인스턴스 변수를 가진 클래스를 쓰지 않는다.
+
+- 대부분의 클래서들이 간단하게 하나의 상태 변수를 처리하는 일을 맡아 마땅하지만 몇몇 경우 둘이 필요할 떄가 있다.
+- 새로운 인스턴스 변수를 하나 더 기존 클래스에 추가하면 클래스의 응집도는 즉시 떨어진다.
+- 많은 인스턴스 변수를 지닌 클래스를 대상으로 응집력 있는 단일 작업을 설명할 수 있는 경우는 거의 없다.
+
+## 8. 제일 클래스 (first class) 콜렉션을 쓴다.
+
+- 콜렉션을 포함한 클래스는 반드시 다른 멤버 변수가 없어야 한다.
+- 각 콜렉션은 그 자체로 포장돼 있으므로 이제 콜렉션과 관련된 동작은 근거지가 마련된 셈이다.
+- 필터가 이 새 클래스의 일부가 됨을 알 수 있다. 필터는 또한 스스로 함수 객체가 될 수 있다. 또한 새 클래스는 두 그룹을 같이 묶는다든가 그룹의 각 원소에 규칙을 적용하는 등의 동작을 처리할 수 있다. 이는 인스턴스 변수에 대한 규칙의 확실한 확장이지만 그 자체를 위해서도 중요하다.
+- 콜렉션은 실로 매우 유용한 원시 타입이다. 많은 동작이 있지만 후임 프로그래머나 유지보수 담당자에 의미적 의도나 단초는 거의 없다.
+
+## 9. `getter/setter/property`를 쓰지 않는다.
+
+- 만약 객체가 지금 인스턴스 변수의 적당한 집합을 캡슐화하고 있지만 그 설계가 여전히 어색하다면, 좀 더 직접적인 캡슐화 위반을 조사해볼 때다. 그냥 단순히 현재 위치에서의 값을 물을 수 있는 동작이라면 해당 인스턴스 변수를 제대로 따라가지 못할 것이다.
+- 강한 캡슐화 경계의 바탕에 깔린 사상은 동작의 검색과 배치를 위해 남겨둔 코드를 만질 다른 프로그래머를 위해 객체 모델의 단일한 지점으로 유도하려는 것이다.
+- 이는 많은 긍정적인 하부효과를 가져다 주는데, 중복 오류의 극적 축소와 새 기능의 구현을 위한 변경의 지역화 개선 등이 있다.
+- 이 규칙은 흔히 “말을 해, 묻지 말고”라고 일컫는다.
+
+## Reference
+
+- Photo : [Pleinmont cliffs, Guernsey | HD photo by Enrapture Captivating Media (@enrapture) on Unsplash](https://unsplash.com/photos/0RTKeo-TIYU)
+- [알라딘: 소트웍스 앤솔러지 : 소프트웨어 기술과 혁신에 관한 에세이 by 마틴 파울러 / 소트웍스 (지은이) / 이창신 / 강규영 / 최재훈 / 정지웅 / 안영회 / 이대엽](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=3273852)
+  <div class="ttbReview">
+  	<table>
+  		<tbody>
+  			<tr>
+  				<td>
+  					<a href="https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=3273852&amp;ttbkey=ttbtkhwang2131008&amp;COPYPaper=1" target="_blank">
+  						<img src="https://image.aladin.co.kr/product/327/38/cover/8992939248_1.jpg" alt="" border="0" />
+  					</a>
+  				</td>
+  				<td align="left" style="vertical-align:top;">
+  					<a href="https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=3273852&amp;ttbkey=ttbtkhwang2131008&amp;COPYPaper=1" target="_blank" class="aladdin_title">
+  						소트웍스 앤솔러지 : 소프트웨어 기술과 혁신에 관한 에세이
+  					</a>{' '}
+  					- <img src="//image.aladin.co.kr/img/common/star_s6.gif" border="0" alt="6점" />
+  					<br />
+  					마틴 파울러 외 지음, 강규영 외 옮김/위키북스
+  				</td>
+  			</tr>
+  		</tbody>
+  	</table>
+  </div>

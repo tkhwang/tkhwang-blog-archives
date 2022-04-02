@@ -1,0 +1,14 @@
+- name: tkhwang
+  bio: |
+    Full stack developer (wannabe) 👨🏽‍💻 Typescript, Javascript, React and Data . Looking to join forces with making something new and fun.
+  avatar: ./avatars/profile.jpg
+  featured: true
+  social:
+    - name: github
+      url: https://github.com/tkhwang
+    - name: twitter
+      url: https://github.com/tkhwang
+    - name: instagram
+      url: https://github.com/tkhwang
+    - name: linkedin
+      url: https://github.com/tkhwang

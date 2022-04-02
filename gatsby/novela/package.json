@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "name": "site",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "build": "gatsby build",
+    "dev": "gatsby develop",
+    "clean": "gatsby clean"
+  },
+  "dependencies": {
+    "@narative/gatsby-theme-novela": "^0.11.3",
+    "@theme-ui/presets": "^0.2.44",
+    "gatsby": "^2.18.17",
+    "gatsby-plugin-mailchimp": "^5.1.2",
+    "gatsby-plugin-manifest": "^2.2.4",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "sharp": "^0.23.0"
+  }
+}
