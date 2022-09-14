@@ -1,0 +1,24 @@
+{
+  "name": "tkHWANG.me",
+  "description": "push the boundary",
+  "url": "https://tkhwang.me",
+  "baseUrl": "/",
+  "author": {
+    "handle": "@tkhwang",
+    "name": "tkhwang"
+  },
+  "images": {
+    "twitter": "twitter.jpg",
+    "og": "og.jpg"
+  },
+  "feed": {
+    "filename": "feed.xml",
+    "path": "/feed/feed.xml",
+    "id": "https://example.com/"
+  },
+  "jsonfeed": {
+    "filename": "feed.json",
+    "path": "/feed/feed.json",
+    "url": "https://example.com/feed/feed.json"
+  }
+}
