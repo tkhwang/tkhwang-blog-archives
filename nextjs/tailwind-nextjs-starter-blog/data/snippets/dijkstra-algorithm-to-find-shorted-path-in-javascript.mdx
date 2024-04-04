@@ -1,0 +1,74 @@
+---
+title: Dijkstra's Algorithm to find the shortest path in javascript
+date: '2023-01-21'
+tags: ['algorithm', 'dijkstra']
+draft: false
+summary: Dijkstra's Algorithm to find the shortest path in javascript
+images: []
+layout: PostSimple
+---
+
+## 💡 Notes
+
+- can be used only positive weight graph.
+- kind of Greedy algorithm
+- `best-first search` : shortest path first search
+
+## ✨ Algorithm
+
+- From the start node, do the edge relaxation of the next nodes and update the shorted path to that node.
+- Select and move to the shorted node among the newly relaxated nodes.
+- Repeat this.
+
+### Common
+
+```javascript
+// adjcent list : graph
+
+// All nodes are set to Infinity
+const costs = Array(n + 1).fill(Infinity)
+// except starting point
+costs[k] = 0
+```
+
+### using nested-for statement : `O(V^2)`
+
+### 🔥 using min-heap : `O(ElogV)`
+
+```javascript
+// [ node, cost ]
+const minHeap = new MinPriorityQueue({ compare: (a, b) => a[1] - b[1] })
+minHeap.enqueue([k, 0])
+
+while (minHeap.size()) {
+  const [cur, cost] = minHeap.dequeue()
+
+  // validation (for easy usage of heap)
+  // - matched: latest smallest one
+  // - not matched: old one which is reduced to smaller one due to the relaxation
+  if (costs[cur] !== cost) continue
+
+  if (graph[cur] === undefined) continue
+  for (const [next, nextCost] of graph[cur]) {
+    // relaxation
+    if (costs[next] > costs[cur] + nextCost) {
+      costs[next] = costs[cur] + nextCost
+      minHeap.enqueue([next, costs[next]])
+    }
+  }
+}
+```
+
+## 🗒️ Typical problems
+
+#### List
+
+- [Graph - Dijkstra's - List by @sachin_ak](https://leetcode.com/list/exk9bfmj/)
+
+#### Medium
+
+- [743. Network Delay Time - Leetcode](https://leetcode.com/problems/network-delay-time/)
+
+## 📚 References
+
+- [The Only Lists You Need For Your Interview Preparation](https://leetcode.com/discuss/interview-question/2069641/The-Only-Lists-You-Need-For-Your-Interview-Preparation)

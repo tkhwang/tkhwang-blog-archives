@@ -1,0 +1,66 @@
+---
+title: How to sort in javascript
+date: '2023-01-10'
+tags: ['algorithm', 'sort']
+draft: false
+summary: How to sort in javascript
+images: []
+layout: PostSimple
+---
+
+<iframe
+  width="560"
+  height="315"
+  src="https://www.youtube.com/embed/RfXt_qHDEPw"
+  title="YouTube video player"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+  allowfullscreen
+></iframe>
+
+## 🔥 MergeSort
+
+- 🙆‍♂️ Time complexity: `O(nlogn)`
+- Divide and Conquer
+  1. Split into two parts.
+  2. Merge them into one using merging the sorted array method.
+
+```javascript
+const merge = (arr1, arr2) => {
+  const N1 = arr1.length
+  const N2 = arr2.length
+
+  const res = []
+  let i1 = 0
+  let i2 = 0
+
+  while (i1 < N1 && i2 < N2) {
+    if (arr1[i1] <= arr2[i2]) {
+      res.push(arr1[i1])
+      i1 += 1
+    } else {
+      res.push(arr2[i2])
+      i2 += 1
+    }
+  }
+
+  return [...res, ...arr1.slice(i1), ...arr2.slice(i2)]
+}
+
+const mergeSort = (nums) => {
+  const N = nums.length
+  if (N < 2) return nums
+
+  const mid = Math.floor(N / 2)
+  return merge(mergeSort(nums.slice(0, mid)), mergeSort(nums.slice(mid)))
+}
+```
+
+```javascript
+const merged = mergeSort([0, 9, 2, 1, 8, 7, 4, 3, 6, 5])
+console.log(merged) // (10) [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+```
+
+## 🗒️ Typical problems
+
+- [912. Sort an Array - Leetcode](https://leetcode.com/problems/sort-an-array/)

@@ -1,0 +1,39 @@
+---
+title: Python Counter equivalent in javascript
+date: '2022-12-10'
+tags: ['algorithm']
+draft: false
+summary: Python Counter equivalent in javascript
+images: []
+layout: PostSimple
+---
+
+## ✨ python `Counter()`
+
+```python
+from collection import Counter
+list = ['a', 'b', 'c', 'b', 'a', 'b', 'c', 'a', 'a', 'a']
+counter = Counter(list)
+print counter
+// Counter({'a':5, 'b':3, 'c':2})
+```
+
+## ✨ Algorithm
+
+- Caution: Javascript `key` becomes string, not `number`.
+
+```javascript
+const counter = (array) => {
+  const freq = {}
+  for (const value of array) {
+    freq[value] = (freq[value] || 0) + 1
+  }
+  return freq
+}
+```
+
+```javascript
+const nums = ['a', 'b', 'c', 'b', 'a', 'b', 'c', 'a', 'a', 'a']
+const obj = counter(nums)
+console.log(obj) // {a: 5, b: 3, c: 2}
+```

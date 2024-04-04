@@ -1,0 +1,861 @@
+---
+title: 'takeUforward pattern problems | pattern | javascript'
+date: '2023-04-13'
+tags: ['takeUforward', 'pattern']
+draft: false
+summary: 'takeUforward pattern problems | pattern | javascript'
+# images: ['/static/images/8.jpeg']
+layout: PostLayout
+readTime: '5 minute read'
+---
+
+## 🗒️ Problems
+
+Recently I saw the following [article](https://takeuforward.org/strivers-a2z-dsa-course/must-do-pattern-problems-before-starting-dsa/?amp=1) <br />
+Really? Anyway, I tried to solve these.
+
+```
+Must do Pattern Problems before starting DSA
+```
+
+## 🍀 General guideline
+
+There are 4 general rules for solving a pattern-based question :
+
+- We always use nested loops for printing the patterns.
+  - For the `outer loop`, we `count the number of lines/rows` and loop for them.
+  * Next, for the `inner loop`, we focus on `the number of columns` and somehow connect them to the rows by forming a logic such that for each row we get the required number of columns to be printed.
+- We print the numbers inside the `inner loop`.
+- `Observe symmetry` in the pattern or check if a pattern is a combination of two or more similar patterns or not.
+
+### Pattern-1: Rectangular Star Pattern
+
+![img](https://raw.githubusercontent.com/tkhwang/tkhwang-etc/master/img/2023/04/P1.png)
+
+```javascript
+const N = 5
+
+for (let r = 0; r < N; r += 1) {
+  console.log('*'.repeat(N))
+}
+```
+
+```
+*****
+*****
+*****
+*****
+*****
+```
+
+### Pattern-2: Right-Angled Triangle Pattern
+
+![img](https://raw.githubusercontent.com/tkhwang/tkhwang-etc/master/img/2023/04/P2.png)
+
+```javascript
+const N = 6
+
+for (let r = 0; r < N; r += 1) {
+  console.log('*'.repeat(r + 1))
+}
+```
+
+```
+*
+**
+***
+****
+*****
+******
+```
+
+### Pattern – 3: Right-Angled Number Pyramid
+
+![img](https://raw.githubusercontent.com/tkhwang/tkhwang-etc/master/img/2023/04/P3.png)
+
+```javascript
+const N = 5
+
+const genString = (num) => {
+  let str = ''
+  for (let i = 1; i <= num; i += 1) {
+    str += '' + i
+  }
+  return str
+}
+
+for (let i = 1; i <= N; i += 1) {
+  console.log(genString(i))
+}
+```
+
+```
+1
+12
+123
+1234
+12345
+```
+
+### Pattern – 4: Right-Angled Number Pyramid – II
+
+![img](https://raw.githubusercontent.com/tkhwang/tkhwang-etc/master/img/2023/04/P4.png)
+
+```javascript
+const N = 5
+
+const genString = (num) => {
+  return String(num).repeat(num)
+}
+
+for (let i = 1; i <= N; i += 1) {
+  console.log(genString(i))
+}
+```
+
+```
+1
+22
+333
+4444
+55555
+```
+
+### Pattern-5: Inverted Right Pyramid
+
+![img](https://raw.githubusercontent.com/tkhwang/tkhwang-etc/master/img/2023/04/P5.png)
+
+```javascript
+const N = 5
+
+for (let i = N; i >= 1; i -= 1) {
+  console.log('*'.repeat(i))
+}
+```
+
+```
+*****
+****
+***
+**
+*
+```
+
+### Pattern – 6: Inverted Numbered Right Pyramid
+
+![img](https://raw.githubusercontent.com/tkhwang/tkhwang-etc/master/img/2023/04/P6.png)
+
+```javascript
+const N = 5
+
+const genString = (num) => {
+  let str = ''
+  for (let i = 1; i <= num; i += 1) {
+    str += '' + i
+  }
+  return str
+}
+
+for (let i = N; i >= 1; i -= 1) {
+  console.log(genString(i))
+}
+```
+
+```
+12345
+1234
+123
+12
+1
+```
+
+### Pattern – 7: Star Pyramid
+
+![img](https://raw.githubusercontent.com/tkhwang/tkhwang-etc/master/img/2023/04/P7.png)
+
+```javascript
+||||| * ||||||
+    * * *
+   ** * **
+  *** * ***
+ **** * ****
+***** * *****
+```
+
+```javascript
+const N = 5
+
+const genString = (row) => {
+  let str = ''
+  str += ' '.repeat(N - row)
+  str += '*'.repeat(row)
+  str += '*'
+  str += '*'.repeat(row)
+  str += ' '.repeat(N - row)
+  return str
+}
+
+for (let r = 0; r < N; r += 1) {
+  console.log(genString(r))
+}
+```
+
+```
+     *
+    ***
+   *****
+  *******
+ *********
+```
+
+### Pattern – 8: Inverted Star Pyramid
+
+![img](https://raw.githubusercontent.com/tkhwang/tkhwang-etc/master/img/2023/04/P8.png)
+
+```javascript
+const N = 6
+
+const genString = (row) => {
+  let str = ''
+  str += ' '.repeat(N - row)
+  str += '*'.repeat(row - 1)
+  str += '*'
+  str += '*'.repeat(row - 1)
+  str += ' '.repeat(N - row)
+  return str
+}
+
+for (let r = N; r >= 1; r -= 1) {
+  console.log(genString(r))
+}
+```
+
+```
+***********
+ *********
+  *******
+   *****
+    ***
+     *
+```
+
+### Pattern – 9: Diamond Star Pattern
+
+![img](https://raw.githubusercontent.com/tkhwang/tkhwang-etc/master/img/2023/04/P9.png)
+
+```javascript
+N = 3
+
+||*
+|***
+*****
+
+*****
+ ***
+  *
+```
+
+```javascript
+const N = 6
+
+const genUpperString = (row) => {
+  let str = ''
+  str += ' '.repeat(N - row)
+  str += '*'.repeat(row - 1)
+  str += '*'
+  str += '*'.repeat(row - 1)
+  str += ' '.repeat(N - row)
+  return str
+}
+
+const genLowerString = (row) => {
+  let str = ''
+  str += ' '.repeat(row - 1)
+  str += '*'.repeat(N - row)
+  str += '*'
+  str += '*'.repeat(N - row)
+  str += ' '.repeat(row - 1)
+  return str
+}
+
+for (let r = 1; r <= N; r += 1) {
+  console.log(genUpperString(r))
+}
+for (let r = 1; r <= N; r += 1) {
+  console.log(genLowerString(r))
+}
+```
+
+```
+     *
+    ***
+   *****
+  *******
+ *********
+***********
+***********
+ *********
+  *******
+   *****
+    ***
+     *
+```
+
+### Pattern – 10: Half Diamond Star Pattern
+
+![img](https://raw.githubusercontent.com/tkhwang/tkhwang-etc/master/img/2023/04/P10.png)
+
+```javascript
+      1 23456
+1     * |||||
+2     * *
+3     * **
+4     * ***
+5     * ****
+
+6     * *****
+
+5     * ****
+4     * ***
+3     * **
+2     * *
+1     *
+```
+
+```javascript
+const N = 6
+
+const genString = (row) => {
+  let str = '*'
+  str += '*'.repeat(row - 1)
+  str += ' '.repeat(N - row)
+  return str
+}
+
+for (let r = 1; r < N; r += 1) {
+  console.log(genString(r))
+}
+
+console.log(genString(N))
+
+for (let r = N - 1; r >= 1; r -= 1) {
+  console.log(genString(r))
+}
+```
+
+```
+*
+**
+***
+****
+*****
+******
+*****
+****
+***
+**
+*
+```
+
+### Pattern – 11: Binary Number Triangle Pattern
+
+![p1](https://raw.githubusercontent.com/tkhwang/tkhwang-etc/master/img/2023/04/P11.png)
+
+```javascript
+const N = 5
+
+const genString = (num, startFromOdd) => {
+  let str = ''
+  let cur = startFromOdd ? 1 : 0
+  for (let i = 1; i <= num; i += 1) {
+    str += '' + cur
+    cur = (cur + 1) % 2
+  }
+  return str
+}
+
+for (let i = 1; i <= N; i += 1) {
+  console.log(genString(i, i % 2))
+}
+```
+
+```
+1
+01
+101
+0101
+10101
+```
+
+### Pattern – 12: Number Crown Pattern
+
+![img](https://raw.githubusercontent.com/tkhwang/tkhwang-etc/master/img/2023/04/P12.png)
+
+```javascript
+   123456
+1  1           1
+2  12         21
+3  12        321
+4  1234     4321
+5  12345   54321
+6  123456 654321
+```
+
+```javascript
+const N = 6
+
+const genString = (row) => {
+  let str = ''
+  for (let c = 1; c <= row; c += 1) {
+    str += '' + c
+  }
+  str += ' '.repeat(N - row)
+  str += ' '.repeat(N - row)
+  for (let c = row; c >= 1; c -= 1) {
+    str += '' + c
+  }
+  return str
+}
+
+for (let r = 1; r <= N; r += 1) {
+  console.log(genString(r))
+}
+```
+
+```
+1          1
+12        21
+123      321
+1234    4321
+12345  54321
+123456654321
+```
+
+### Pattern – 13: Increasing Number Triangle Pattern
+
+![img](https://raw.githubusercontent.com/tkhwang/tkhwang-etc/master/img/2023/04/P13.png)
+
+```javascript
+    1   2   3   4   5  6
+1   1
+2   2   3
+3   4   5   6
+4   7   8   9  10
+5  11  12  13  14  15
+6  16  17  18  19  20  21
+```
+
+```javascript
+const N = 6
+
+let cur = 1
+
+const genString = (row) => {
+  const local = []
+  for (let c = 1; c <= row; c += 1) {
+    local.push(cur)
+    cur += 1
+  }
+  return local.join(' ')
+}
+
+for (let r = 1; r <= N; r += 1) {
+  console.log(genString(r))
+}
+```
+
+```
+1
+2 3
+4 5 6
+7 8 9 10
+11 12 13 14 15
+16 17 18 19 20 21
+```
+
+### Pattern-14: Increasing Letter Triangle Pattern
+
+![img](https://raw.githubusercontent.com/tkhwang/tkhwang-etc/master/img/2023/04/P14.png)
+
+```javascript
+   1 2 3 4 5 6
+1  A
+2  A B
+3  A B C
+4  A B C D
+5  A B C D E
+6  A B C D E F
+```
+
+```javascript
+const N = 6
+
+const genString = (row) => {
+  const local = []
+  for (let c = 0; c < row; c += 1) {
+    local.push(String.fromCharCode(c + 'A'.charCodeAt(0)))
+  }
+  return local.jon(' ')
+}
+
+for (let r = 1; r <= N; r += 1) {
+  console.log(genString(r))
+}
+```
+
+```
+A
+A B
+A B C
+A B C D
+A B C D E
+A B C D E F
+```
+
+### Pattern-15: Reverse Letter Triangle Pattern
+
+![img](https://raw.githubusercontent.com/tkhwang/tkhwang-etc/master/img/2023/04/P15.png)
+
+```javascript
+   1 2 3 4 5 6
+1  A B C D E F
+2  A B C D E
+3  A B C D
+4  A B C
+5  A B
+6  A
+```
+
+```javascript
+const N = 6
+
+const genString = (row) => {
+  const local = []
+  for (let c = 0; c < row; c += 1) {
+    local.push(String.fromCharCode(c + 'A'.charCodeAt(0)))
+  }
+  return local.join(' ')
+}
+
+for (let r = N; r >= 1; r -= 1) {
+  console.log(genString(r))
+}
+```
+
+```
+A B C D E F
+A B C D E
+A B C D
+A B C
+A B
+A
+```
+
+### Pattern – 16: Alpha-Ramp Pattern
+
+![img](https://raw.githubusercontent.com/tkhwang/tkhwang-etc/master/img/2023/04/P16.png)
+
+```javascript
+   1 2 3 4 5 6
+1  A
+2  B B
+3  C C C
+4  D D D D
+5  E E E E E
+6  F F F F F F
+```
+
+```javascript
+const N = 6
+
+const genString = (row) => {
+  const local = []
+  for (let c = 0; c < row; c += 1) {
+    local.push(String.fromCharCode(row - 1 + 'A'.charCodeAt(0)))
+  }
+  return local.join(' ')
+}
+
+for (let r = 1; r <= N; r += 1) {
+  console.log(genString(r))
+}
+```
+
+```
+A
+B B
+C C C
+D D D D
+E E E E E
+F F F F F F
+```
+
+### Pattern – 17: Alpha-Hill Pattern
+
+![img](https://raw.githubusercontent.com/tkhwang/tkhwang-etc/master/img/2023/04/P17.png)
+
+```javascript
+
+1        A
+2      A B A
+3     AB C BA
+4    ABC D CBA
+5   ABCD E DCBA
+6  ABCDE F EDCBA
+   12345 6 78901
+```
+
+```javascript
+const N = 6
+
+const genString = (row) => {
+  let str = ''
+  const spaces = ' '.repeat(N - row)
+  let local = ''
+  for (let c = 1; c < row; c += 1) {
+    local += String.fromCharCode(c - 1 + 'A'.charCodeAt(0))
+  }
+
+  str += spaces
+  str += local
+  str += String.fromCharCode(row - 1 + 'A'.charCodeAt(0))
+  str += local.split('').reverse().join('')
+  str += spaces
+  return str
+}
+
+for (let r = 1; r <= N; r += 1) {
+  console.log(genString(r))
+}
+```
+
+### Pattern-18: Alpha-Triangle Pattern
+
+![img](https://raw.githubusercontent.com/tkhwang/tkhwang-etc/master/img/2023/04/P18.png)
+
+```javascript
+1  F
+2  E F
+3  D E F
+4  C D E F
+5  B C D E F
+6  A B C D E F
+   1 2 3 4 5 6
+```
+
+```javascript
+const N = 6
+
+const genString = (row) => {
+  const local = []
+  for (let c = 0; c <= row; c += 1) {
+    local.push(String.fromCharCode(N - c - 1 + 'A'.charCodeAt(0)))
+  }
+  return local.reverse().join(' ')
+}
+
+for (let r = 0; r < N; r += 1) {
+  console.log(genString(r))
+}
+```
+
+```
+F
+E F
+D E F
+C D E F
+B C D E F
+A B C D E F
+```
+
+### Pattern-19: Symmetric-Void Pattern
+
+![img](https://raw.githubusercontent.com/tkhwang/tkhwang-etc/master/img/2023/04/P19.png)
+
+```javascript
+   123456
+1  *** ***
+2  **| |**
+3  *|| ||*
+
+4  *    *
+5  **  **
+6  ******
+```
+
+```javascript
+const N = 3
+
+const genString = (row) => {
+  let str = ''
+  str += '*'.repeat(N + 1 - row)
+  str += ' '.repeat(row - 1)
+  str += ' '.repeat(row - 1)
+  str += '*'.repeat(N + 1 - row)
+  return str
+}
+
+for (let r = 1; r <= N; r += 1) {
+  console.log(genString(r))
+}
+for (let r = N; r >= 1; r -= 1) {
+  console.log(genString(r))
+}
+```
+
+```
+******
+**  **
+*    *
+*    *
+**  **
+******
+```
+
+### Pattern – 20: Symmetric-Butterfly Pattern
+
+![img](https://raw.githubusercontent.com/tkhwang/tkhwang-etc/master/img/2023/04/P20.png)
+
+```javascript
+N = 6
+   123456 789012
+1  *||||| |||||*
+2  **|||| ||||**
+3  ***||| |||***
+4  ****|| ||****
+5  *****| |*****
+
+6  ************
+
+7  *****  *****
+8  ****    ****
+9  ***      ***
+0  **        **
+1  *          *
+```
+
+```javascript
+const N = 6
+
+const genString = (row) => {
+  let str = ''
+  let local = ''
+  local += '*'.repeat(row)
+  local += ' '.repeat(N - row)
+
+  str += local
+  str += local.split('').reverse().join('')
+  return str
+}
+
+for (let r = 1; r < N; r += 1) {
+  console.log(genString(r))
+}
+
+console.log('*'.repeat(N * 2))
+
+for (let r = N - 1; r >= 1; r -= 1) {
+  console.log(genString(r))
+}
+```
+
+```
+*          *
+**        **
+***      ***
+****    ****
+*****  *****
+************
+*****  *****
+****    ****
+***      ***
+**        **
+*          *
+```
+
+### Pattern – 21: Hollow Rectangle Pattern
+
+![img](https://raw.githubusercontent.com/tkhwang/tkhwang-etc/master/img/2023/04/P21.webp)
+
+```javascript
+const N = 4
+
+const genString = (num) => {
+  if (num === 1 || num === N) return '*'.repeat(N)
+  return '*' + ' '.repeat(N - 2) + '*'
+}
+
+for (let i = 1; i <= N; i += 1) {
+  console.log(genString(i))
+}
+```
+
+```
+****
+*  *
+*  *
+****
+```
+
+### ProbPattern – 22: The Number Patternlem
+
+![img](https://raw.githubusercontent.com/tkhwang/tkhwang-etc/master/img/2023/04/P22.png)
+
+```javascript
+   1 2 3 4 5  6  7 8 9 0 1
+0  6 6 6 6 6  6  6 6 6 6 6
+1  6 5 5 5 5  5  5 5 5 5 6
+2  6 5 4 4 4  4  4 4 4 5 6
+3  6 5 4 3 3  3  3 3 4 5 6
+4  6 5 4 3 2  2  2 3 4 5 6
+
+5  6 5 4 3 2  1  2 3 4 5 6
+
+6  6 5 4 3 2 2 2 3 4 5 6
+7  6 5 4 3 3 3 3 3 4 5 6
+8  6 5 4 4 4 4 4 4 4 5 6
+9  6 5 5 5 5 5 5 5 5 5 6
+0  6 6 6 6 6 6 6 6 6 6 6
+```
+
+```javascript
+const N = 6
+
+const genString = (row) => {
+  const local = []
+  const temp = []
+  for (let c = 0; c < N - 1; c += 1) {
+    temp.push(Math.max(N - row, N - c))
+  }
+  local.push(...temp)
+  local.push(N - row)
+  local.push(...temp.reverse())
+  return local.join(' ')
+}
+
+for (let r = 0; r < N; r += 1) {
+  console.log(genString(r))
+}
+
+for (let r = N - 2; r >= 0; r -= 1) {
+  console.log(genString(r))
+}
+```
+
+```
+6 6 6 6 6 6 6 6 6 6 6
+6 5 5 5 5 5 5 5 5 5 6
+6 5 4 4 4 4 4 4 4 5 6
+6 5 4 3 3 3 3 3 4 5 6
+6 5 4 3 2 2 2 3 4 5 6
+6 5 4 3 2 1 2 3 4 5 6
+6 5 4 3 2 2 2 3 4 5 6
+6 5 4 3 3 3 3 3 4 5 6
+6 5 4 4 4 4 4 4 4 5 6
+6 5 5 5 5 5 5 5 5 5 6
+6 6 6 6 6 6 6 6 6 6 6
+```
+
+## 📚 Reference
+
+- [Must do Pattern Problems before starting DSA](https://takeuforward.org/strivers-a2z-dsa-course/must-do-pattern-problems-before-starting-dsa/?amp=1)

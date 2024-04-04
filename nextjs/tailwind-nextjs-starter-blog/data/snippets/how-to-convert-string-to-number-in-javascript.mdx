@@ -1,0 +1,34 @@
+---
+title: How to convert string to number in javascript
+date: '2022-12-04'
+tags: ['algorithm']
+draft: false
+summary: How to convert string to number in javascript
+images: []
+layout: PostSimple
+---
+
+## ✨ Basic
+
+Of course, it works.
+
+```javascript
+const num = '123'
+
+Number(num) + // 123
+  +num // 123
+```
+
+## ✨ Convert by character
+
+Sometimes it's necessary to convert the string number by character.
+
+```javascript
+const strNumber = '123'
+let num = 0
+for (const n of strNumber) {
+  num = num * 10 + Number(n)
+}
+```
+
+## 🗒️ Typical problems

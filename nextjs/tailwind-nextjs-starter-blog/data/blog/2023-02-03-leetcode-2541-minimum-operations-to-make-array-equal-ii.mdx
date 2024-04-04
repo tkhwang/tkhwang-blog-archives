@@ -1,0 +1,93 @@
+---
+title: 'leetcode 2541. Minimum Operations to Make Array Equal II | medium | greedy | javascript'
+date: '2023-02-03'
+tags: ['medium', 'greedy']
+draft: false
+summary: 'leetcode 2541. Minimum Operations to Make Array Equal II | medium | greedy | javascript'
+# images: ['/static/images/8.jpeg']
+layout: PostLayout
+readTime: '5 minute read'
+---
+
+## 🗒️ Problems
+
+[2541. Minimum Operations to Make Array Equal II - Leetcode](https://leetcode.com/problems/minimum-operations-to-make-array-equal-ii/)
+
+```
+You are given two integer arrays nums1 and nums2 of equal length n and an integer k.
+You can perform the following operation on nums1:
+
+Choose two indexes i and j and increment nums1[i] by k and decrement nums1[j] by k.
+In other words, nums1[i] = nums1[i] + k and nums1[j] = nums1[j] - k.
+nums1 is said to be equal to nums2 if for all indices i
+such that 0 <= i < n, nums1[i] == nums2[i].
+
+Return the minimum number of operations required to make nums1 equal to nums2.
+If it is impossible to make them equal, return -1.
+```
+
+```
+Input: nums1 = [4,3,1,4], nums2 = [1,3,7,1], k = 3
+Output: 2
+Explanation: In 2 operations, we can transform nums1 to nums2.
+1st operation: i = 2, j = 0. After applying the operation, nums1 = [1,3,4,4].
+2nd operation: i = 2, j = 3. After applying the operation, nums1 = [1,3,7,1].
+One can prove that it is impossible to make arrays equal in fewer operations.
+```
+
+#### Constraints:
+
+```
+n == nums1.length == nums2.length
+2 <= n <= 10^5
+0 <= nums1[i], nums2[j] <= 10^9
+0 <= k <= 10^5
+```
+
+## 🤔 Understand problem
+
+- We will change `nums1[]` to be equal to `nums2[]` only by adding or subtracting `k`.
+
+## 🤦‍♂️ First attempt
+
+- How to solve ?
+- This kind of Greedy or Math problem, it's difficult to come up with the solution at first.
+
+## 🥳 Think differently
+
+- If the diff between `nums1[i]` and `nums2[i]` is not the multiple of `k`, it's impossible to make the two arrays equal.
+- First check how many addings and subtractions are necessary to make the two arrays equal.
+  - If there are same number of addings and subtractions, it's possible case.
+  - If not, it's impossible case.
+
+## 🔥 My Solution
+
+```javascript
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @param {number} k
+ * @return {number}
+ */
+var minOperations = function (nums1, nums2, k) {
+  const N = nums1.length
+
+  let pos = 0
+  let nes = 0
+
+  for (let i = 0; i < N; i += 1) {
+    if (nums1[i] === nums2[i]) continue
+    if (Math.abs(nums1[i] - nums2[i]) % k !== 0) return -1
+
+    if (nums1[i] > nums2[i]) {
+      pos += (nums1[i] - nums2[i]) / k
+    } else if (nums1[i] < nums2[i]) {
+      nes += (nums2[i] - nums1[i]) / k
+    }
+  }
+
+  return pos === nes ? pos : -1
+}
+```
+
+### 🙆‍♂️ Time complexity: `O(n)`

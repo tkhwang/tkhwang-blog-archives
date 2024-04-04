@@ -1,0 +1,41 @@
+---
+title: How to count using array index
+date: '2022-12-01'
+tags: ['algorithm']
+draft: false
+summary: I hate offset-by-one error.
+images: []
+layout: PostSimple
+---
+
+```javascript
+        0   1   2   3   4   5
+            |       |
+           left    right
+```
+
+## ✨ What is the difference between `[left:right]` ?
+
+```javascript
+        0   1   2   3   4   5
+            |       |
+           left    right
+            1   2   3
+```
+
+```javascript
+right - left
+```
+
+## 🔥 How many elements are there between `[left:right]` ?
+
+```javascript
+        0   1   2   3   4   5
+            |       |
+           left    right
+            1   2   3
+```
+
+```javascript
+right - left + 1
+```

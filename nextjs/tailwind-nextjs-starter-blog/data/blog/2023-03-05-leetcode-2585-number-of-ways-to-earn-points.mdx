@@ -1,0 +1,129 @@
+---
+title: 'leetcode 2585. Number of Ways to Earn Points | hard | dynamic-programming | javascript'
+date: '2023-03-05'
+tags: ['hard', 'dynamic-programming']
+draft: false
+summary: 'leetcode 2585. Number of Ways to Earn Points | hard | dynamic-programming | javascript'
+# images: ['/static/images/8.jpeg']
+layout: PostLayout
+readTime: '10 minute read'
+---
+
+## 🗒️ Problems
+
+[2585. Number of Ways to Earn Points - Leetcode](https://leetcode.com/problems/number-of-ways-to-earn-points/)
+
+```
+There is a test that has n types of questions.
+You are given an integer target and a 0-indexed 2D integer array types
+where types[i] = [counti, marksi] indicates that
+there are counti questions of the ith type, and each one of them is worth marksi points.
+
+Return the number of ways you can earn exactly target points in the exam.
+Since the answer may be too large, return it modulo 109 + 7.
+
+Note that questions of the same type are indistinguishable.
+
+For example, if there are 3 questions of the same type,
+then solving the 1st and 2nd questions is the same as solving the 1st and 3rd questions, or the 2nd and 3rd questions.
+```
+
+```
+Input: target = 6, types = [[6,1],[3,2],[2,3]]
+Output: 7
+Explanation: You can earn 6 points in one of the seven ways:
+- Solve 6 questions of the 0th type: 1 + 1 + 1 + 1 + 1 + 1 = 6
+- Solve 4 questions of the 0th type and 1 question of the 1st type: 1 + 1 + 1 + 1 + 2 = 6
+- Solve 2 questions of the 0th type and 2 questions of the 1st type: 1 + 1 + 2 + 2 = 6
+- Solve 3 questions of the 0th type and 1 question of the 2nd type: 1 + 1 + 1 + 3 = 6
+- Solve 1 question of the 0th type, 1 question of the 1st type and 1 question of the 2nd type: 1 + 2 + 3 = 6
+- Solve 3 questions of the 1st type: 2 + 2 + 2 = 6
+- Solve 2 questions of the 2nd type: 3 + 3 = 6
+```
+
+## 🤦‍♂️ First attempt
+
+- I thought that this problem is similar to [01 knapsack](https://tkhwang.me/blog/2022-10-14-geeksforgeeks-01-knapsack) problem.
+
+## 🥳⬇️ Think differently
+
+- Can I think up a top-down solution ?
+
+```javascript
+dp(remain, index)
+```
+
+## 💡⬇️ basecase
+
+- When `remain === 0`, we found one case.
+- When `index` exceeds the given `types` length, we failed to find a solution.
+
+```javascript
+const dfs = (remain, index) => {
+  if (remain === 0) return 1
+  if (index >= N) return 0
+
+  // main code
+}
+```
+
+## ✨⬇️ top-down `dp()`
+
+- For given `types[index]`, we can use `count (0 <= c <= count)` number of `marks`.
+- If we can reduce `remain` by using `c * marks`, go move the next `types[index +1]` with reduced `remain`.
+
+```javascript
+const N = types.length
+const MOD = 7 + 10 ** 9
+
+const dfs = (remain, index) => {
+  // basecase
+
+  const [count, marks] = types[index]
+
+  let total = 0
+  for (let c = 0; c <= count; c += 1) {
+    if (remain - c * marks >= 0) total += dfs(remain - c * marks, index + 1)
+    else break
+  }
+  return total % MOD
+}
+```
+
+## 🔥 My Solution
+
+- Add memoization `cache`.
+
+```javascript
+/**
+ * @param {number} target
+ * @param {number[][]} types
+ * @return {number}
+ */
+var waysToReachTarget = function (target, types) {
+  const N = types.length
+  const MOD = 7 + 10 ** 9
+
+  const cache = {}
+  const genKey = (remain, index) => `${remain}:${index}`
+
+  const dfs = (remain, index) => {
+    if (remain === 0) return 1
+    if (index >= N) return 0
+    if (cache[genKey(remain, index)] !== undefined) return cache[genKey(remain, index)]
+
+    const [count, marks] = types[index]
+
+    let total = 0
+    for (let c = 0; c <= count; c += 1) {
+      if (remain - c * marks >= 0) total += dfs(remain - c * marks, index + 1)
+      else break
+    }
+    return (cache[genKey(remain, index)] = total % MOD)
+  }
+
+  return dfs(target, 0) % MOD
+}
+```
+
+### 🙆‍♂️ Time complexity: `O(target * len(types) * max(count))`

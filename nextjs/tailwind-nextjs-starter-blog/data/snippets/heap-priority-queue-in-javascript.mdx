@@ -1,0 +1,73 @@
+---
+title: Heap (Priority Queue) in javascript
+date: '2023-01-14'
+tags: ['algorithm']
+draft: false
+summary: Heap (Priority Queue) in javascript
+images: []
+layout: PostSimple
+---
+
+## ✨ Leetcode
+
+[What are the environments for the programming languages? - Leetcode](https://support.leetcode.com/hc/en-us/articles/360011833974-What-are-the-environments-for-the-programming-languages-)
+
+Leetcode supports the following open source library as default.
+
+```
+For Priority Queue / Queue data structures,
+you may use version 4.1 datastructures-js/priority-queue and datastructures-js/queue.
+```
+
+- [datastructures-js /priority-queue](https://github.com/datastructures-js/priority-queue)
+
+```javascript
+const minHeap = new MinPriorityQueue({ compare: (a, b) => a - b })
+const maxHeap = new MaxPriorityQueue({ compare: (a, b) => b - a })
+
+for (const num of nums) {
+  minHeap.enqueue(num)
+  maxHeap.enqueue(num)
+}
+
+while (maxHeap.size()) {
+  const check = maxHeap.front()
+  const max = maxHeap.dequeue()
+}
+
+while (minHeap.size()) {
+  const check = minHeap.front()
+  const min = minHeap.dequeue()
+}
+
+// methods
+{
+  min, max
+}
+Heap.size()
+{
+  min, max
+}
+Heap.isEmpty()
+{
+  min, max
+}
+Heap.toArray()
+```
+
+## ✨ Implementation
+
+...
+
+## 🗒️ Typical problems
+
+#### List
+
+- [Heap - Top K Pattern - List by @sachin_ak](https://leetcode.com/list/e9sr11es/)
+- [Heap - Merge Pattern - List by @sachin_ak](https://leetcode.com/list/e9spcwu1/)
+- [Heap - Two Heap Pattern - List by @sachin_ak](https://leetcode.com/list/e9smnbcm/)
+- [Heap - Min Number Pattern - List by @sachin_ak](https://leetcode.com/list/e9sa9dgt/)
+
+## 📚 References
+
+- [The Only Lists You Need For Your Interview Preparation](https://leetcode.com/discuss/interview-question/2069641/The-Only-Lists-You-Need-For-Your-Interview-Preparation)

@@ -1,0 +1,214 @@
+---
+title: 'leetcode 2444. Count Subarrays With Fixed Bounds | hard | sliding-window | javascript'
+date: '2022-10-17'
+tags: ['hard', 'sliding-window']
+draft: false
+summary: 'leetcode 2444. Count Subarrays With Fixed Bounds | hard | sliding-window | javascript'
+layout: PostLayout
+readTime: '10 minute read'
+---
+
+## 🗒️ Problems
+
+[Count Subarrays With Fixed Bounds - LeetCode](https://leetcode.com/problems/count-subarrays-with-fixed-bounds/)
+
+```
+You are given an integer array nums and two integers minK and maxK.
+A fixed-bound subarray of nums is a subarray that satisfies the following conditions:
+
+- The minimum value in the subarray is equal to minK.
+- The maximum value in the subarray is equal to maxK.
+
+Return the number of fixed-bound subarrays.
+A subarray is a contiguous part of an array.
+```
+
+```
+Input: nums = [1,3,5,2,7,5], minK = 1, maxK = 5
+Output: 2
+Explanation: The fixed-bound subarrays are [1,3,5] and [1,3,5,2].
+```
+
+The problem itself is not difficult to understand. <br />
+Find the total number of sub-arrays with given min and max values.
+
+## 🤔 First thought
+
+Can we just use a [sliding window](https://tkhwang.me/snippets/sliding-window-algorithm) to manage the sub-array that meets the conditions?
+
+- Let's use [sliding window](https://tkhwang.me/snippets/sliding-window-algorithm).
+- Window must maintain min/max values
+- When to shrink window ?
+- If we find the window, how do we find the number of sub-arrays?
+
+## ✨ Idea
+
+- Use the sliding window to add the number of sub-arrays that meet the condition while traversing `right`.
+- The min value of the sub-array should be `minK` and the max value should be `maxK`, so set the flag to indicate if these values are found while traversing the right pointer.
+
+```
+// left  ...   minCurIndex ... maxCurIndex... right
+// left  ...   maxCurIndex ... minCurIndex... right
+```
+
+- In the above case, get the number of sub-arrays and add them.
+
+## 🍀 Intuition
+
+#### [Sliding window](https://tkhwang.me/snippets/sliding-window-algorithm)
+
+```javascript
+let res = 0
+
+let left = 0
+for (let right = 0; right < n; right += 1) {
+  // do logic here to add arr[right] to curr
+
+  while (WINDOW_CONDITION_BROKEN) {
+    // remove top left from window
+    left += 1
+  }
+
+  // update ans
+}
+
+return res
+```
+
+### 💡 Traverse `right` to find indexes with min/max values
+
+- Because of the min/max property, if the value inside the window does not exceed min/max, the window will continue to be checked.
+- Note that you can't close the window immediately after finding the min/max, it may continue to grow, or the window may get bigger but not find the min/max position that satisfies the condition.
+  - Let's save the case where the conditions are met as we go: (`minCurIndex`, `maxCurIndex`)
+  - Set a flag to count the number of items in the sub-array only if both conditions are met (`minFound`, `maxFound`).
+
+```javascript
+  let minFound = false
+  let maxFound = false
+  let minCurIndex = -1
+  let maxCurIndex = -1
+
+  let left = 0
+  for (let right = 0; right < N; right += 1) {
+    const cur = nums[right]
+
+    if (cur === minK) {
+      minFound = true
+      minCurIndex = right
+    }
+    if (cur === maxK) {
+      maxFound = true
+      maxCurIndex = right
+    }
+```
+
+### 💡 shrink window
+
+- If the value of the `right` pointer goes beyond the given minimum/maximum, the sub-array starting at `left` is no longer valid.
+- Enable a new window to start after the current position.
+
+```javascript
+  let left = 0
+  for (let right = 0; right < N; right += 1) {
+    const cur = nums[right]
+
+    if (cur < minK || cur > maxK) {
+      left = right + 1
+
+      minFound = false
+      maxFound = false
+      minCurIndex = -1
+      maxCurIndex = -1
+    }
+```
+
+### 💡 Compute sub-array from the pointer found earlier
+
+```javascript
+// left  ...   minCurIndex ... maxCurIndex... right
+// left  ...   maxCurIndex ... minCurIndex... right
+```
+
+- The current pointer position is shown above.
+
+```javascript
+// left  ...   minCurIndex ... maxCurIndex... right
+// left  ...   maxCurIndex ... minCurIndex... right
+                   |<----------->|
+```
+
+- The above bands become the required sub-array bands that make up the min/max values.
+  - These parts must be contained as one.
+  - Cannot be broken into sub-arrays between these intervals.
+
+### 🍀 🚀 The number of sub-arrays that satisfy the condition is ?
+
+```javascript
+// left  ...   minCurIndex ... maxCurIndex... right
+// left  ...   maxCurIndex ... minCurIndex... right
+    o  o  o  o  o  |<----------->|
+                   [ mandatory  ]
+    [ optional  ]
+                |<-------------->|
+             |<----------------->|
+          |<-------------------->|
+       |<----------------------->|
+    |<-------------------------->|
+```
+
+- A new sub-array can start at any point between `left` and `Math.min(minCurIndex, maxCurIndex)`, so the number of pointers between them is the number of sub-arrays.
+
+```javascript
+if (minFound && maxFound) {
+  res += Math.min(minCurIndex, maxCurIndex) - left + 1
+}
+```
+
+## 🔥 My Solution
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} minK
+ * @param {number} maxK
+ * @return {number}
+ */
+var countSubarrays = function (nums, minK, maxK) {
+  const N = nums.length
+
+  let minFound = false
+  let maxFound = false
+  let minCurIndex = -1
+  let maxCurIndex = -1
+
+  let res = 0
+
+  let left = 0
+  for (let right = 0; right < N; right += 1) {
+    const cur = nums[right]
+
+    if (cur === minK) {
+      minFound = true
+      minCurIndex = right
+    }
+    if (cur === maxK) {
+      maxFound = true
+      maxCurIndex = right
+    }
+
+    if (cur < minK || cur > maxK) {
+      left = right + 1
+      minFound = false
+      maxFound = false
+      minCurIndex = -1
+      maxCurIndex = -1
+    }
+
+    if (minFound && maxFound) {
+      res += Math.min(minCurIndex, maxCurIndex) - left + 1
+    }
+  }
+
+  return res
+}
+```

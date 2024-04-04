@@ -1,0 +1,85 @@
+---
+title: How to solve algorithm problems and thought process
+date: '2023-03-02'
+tags: ['algorithm']
+draft: false
+summary: My thought process for solving algorithm and data-structure problems.
+images: []
+layout: PostSimple
+---
+
+(🚧 This page is under construction.)
+
+As I have learned and practiced solving algorithm and data-structure problems,
+I'm looking for `general guidelines` to show the general thought process to find how to solve the algorithms and data-structure problems.
+
+## 🍀 Consider the algorithm according to the input size
+
+- `~ 20` : `O(2^n)`
+  - [backtracking algorithm](https://tkhwang.me/snippets/backtracking-in-javascript)
+- `~1000` : `O(n^2)`
+  - `nested for loop` can be used.
+- `~10^5` : `O(n logn)`
+  - Hash map
+  - A two pointers implementation like sliding window
+  - Monotonic stack
+  - Binary search
+  - Heap
+  - A combination of any of the above
+- `~10^9` : `O(logn)`
+  - [binary search algorithm](https://tkhwang.me/snippets/binary-search-in-javascript)
+
+## 🔥 `subarray` or `substring` related problems
+
+It should be continuous.
+
+- [sliding window algorithm](https://tkhwang.me/snippets/sliding-window-algorithm)
+- [prefixSum](https://tkhwang.me/snippets/prefixsum-in-javascript) style problem solving : prefix + something
+
+## 🔥 `subsequence` related problem
+
+It can be dis-continuous.
+
+- [dynamic programming](https://tkhwang.me/snippets/dynamic-programming-in-javascript)
+
+## 🔥 Problem describes what to do exactly, but large data
+
+- Usually, it won't work just do what you are told.
+- You should FIND `pattern` or `algorithm` to calculate it in more faster way.
+
+#### 🗒️ Typical problems
+
+- [390. Elimination Game - Leetcode](https://leetcode.com/problems/elimination-game/)
+
+```
+Starting from left to right, remove the first number and every other number afterward until you reach the end of the list.
+Repeat the previous step again, but this time from right to left, remove the rightmost number and every other number from the remaining numbers.
+Keep repeating the steps again, alternating left to right and right to left, until a single number remains.
+```
+
+## ✨ From [(ebook) A is for Algorithms](https://jarednielsen.gumroad.com/l/algorithms?layout=profile)
+
+#### 💡 How to solve it
+
+1. Understand the problem
+2. Make a plan
+3. Execute the plan
+4. Evaluate the result
+
+#### 💡 How to solve it with `Computational Thinking`
+
+- Decomposition
+  - the opposite of composition
+  - breaking a problem down into smaller parts
+- Pattern recognition
+  - Where have I seen `this` or `something like it` before ?
+- Abstraction
+  - Once we recognize patterns, we can
+    - remove the details.
+    - form abstractions.
+- Algorithm design
+
+## 📚 References
+
+- [LeetCode Interview Crash Course - cheetsheet ](https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/713/interviews-and-tools/4547/)
+- [(ebook) A is for Algorithms](https://jarednielsen.gumroad.com/l/algorithms?layout=profile)

@@ -1,0 +1,121 @@
+---
+title: PrefixSum in javascript
+date: '2023-01-02'
+tags: ['algorithm', 'prefixSum']
+draft: false
+summary: How to build and use refixSum in javascript
+images: []
+layout: PostSimple
+---
+
+## ✨ Basic style
+
+```javascript
+prefixSum[i] : sum(nums[0:i])
+```
+
+```
+             0  1  2  3  4  5
+nums         3  5  2 -2  4  1
+
+// basic style
+             0  1  2  3  4  5
+prefixSum    3  8 10  8 12 13
+```
+
+### 💡 Build
+
+```javascript
+// nums given
+const prefixSum = [nums[0]]
+for (let i = 1; i < N; i += 1) {
+  prefixSum.push(nums[i] + prefixSum[i - 1])
+}
+```
+
+```javascript
+// nums given
+const prefixSum = Array(N).fill(0)
+prefixSum[0] = nums[0]
+
+let sum = 0
+for (const [i, num] of nums.entries()) {
+  sum += num
+  prefixSum[i] = sum
+}
+```
+
+### 💡 How to use
+
+```
+        [left, ..., right]
+          |           |
+  *   *   *   *   *   *
+                      |
+                prefixSum[right]
+  *   *
+      |
+ prefixSum[left-1]
+
+nums[left:right] = prefixSum[right] - (prefixSum[left - 1] || 0)
+```
+
+#### Tips
+
+```javascript
+nums[left:right] = prefixSum[right] - prefixSum[left] + nums[left]
+```
+
+- No need to check `left - 1` availability.
+- Only use `right` and `left` indexes.
+
+## ✨ Another style
+
+```javascript
+prefixSum[i] = sum(nums[0:i-1])
+```
+
+```
+             0  1  2  3  4  5
+nums         3  5  2 -2  4  1
+
+// basic style
+             0  1  2  3  4  5
+prefixSum    3  8 10  8 12 13
+
+// another style
+          0  1  2  3  4  5  6
+prefixSum 0  3  8 10  8 12 13
+```
+
+### 💡 Build
+
+```javascript
+const N = nums.length
+
+const prefixSum = Array(N + 1).fill(0)
+prefixSum[0] = 0
+
+for (let i = 0; i < N; i += 1) {
+  prefixSum[i + 1] = prefixSum[i] + nums[i]
+}
+```
+
+### 💡 How to use
+
+```javascript
+        [left, ..., right]
+          |           |
+  *   *   *   *   *   *   *
+                          |
+                prefixSum[right+1]
+  *   *   *
+          |
+ prefixSum[left]
+
+nums[i:j] = prefixSum[j+1] - prefixSum[i]
+```
+
+## 🏷️ Related tags
+
+- [#prefixSum](https://tkhwang.me/tags/prefixSum)

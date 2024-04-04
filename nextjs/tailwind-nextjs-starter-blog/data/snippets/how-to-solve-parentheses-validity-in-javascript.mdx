@@ -1,0 +1,38 @@
+---
+title: How to solve parentheses validity checking problems in javascript
+date: '2023-01-12'
+tags: ['algorithm']
+draft: false
+summary: How to solve parentheses validity checking problems in javascript
+images: []
+layout: PostSimple
+---
+
+## ✨ Basic : validity check using stack
+
+```javascript
+const stack = []
+for (const ch of str) {
+  if (ch === '(') {
+    stack.push(ch)
+  } else {
+    const pop = stack.pop()
+    if (pop !== '(') return false
+  }
+  return stack.length === 0
+}
+```
+
+## 💡 Tips
+
+For valid parentheses,
+
+- The number of open parentheses `(` (`str[0:i]`)
+  - should be equal or greater than the number of close parentheses `)`.
+- The number of close parentheses `)` (`str[0:i]`)
+  - can not be greater than the number of open parentheses `(`.
+  - If so, it's invalid parentheses at index `i` (`str[0:i]`).
+
+## 🗒️ Typical problems
+
+- [20. Valid Parentheses - Leetcode](https://leetcode.com/problems/valid-parentheses/)

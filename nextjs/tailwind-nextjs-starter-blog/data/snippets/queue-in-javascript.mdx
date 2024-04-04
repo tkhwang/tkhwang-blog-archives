@@ -1,0 +1,97 @@
+---
+title: Queue in javascript
+date: '2023-01-11'
+tags: ['algorithm']
+draft: false
+summary: Queue in javascript
+images: []
+layout: PostSimple
+---
+
+## ✨ vanilla JavaScript
+
+```javascript
+//    <-- old [    ...   ] latest <---
+const queue = [1, 2, 3, 4]
+
+queue.push(5) // [ 1, 2, 3, 4, 5 ];
+queue.shift() // [ 2, 3, 4, 5 ]
+```
+
+## ✨ Leetcode
+
+[What are the environments for the programming languages? - Leetcode](https://support.leetcode.com/hc/en-us/articles/360011833974-What-are-the-environments-for-the-programming-languages-)
+
+Leetcode supports the following open source library as default.
+
+```
+For Priority Queue / Queue data structures,
+you may use version 4.1 datastructures-js/priority-queue and datastructures-js/queue.
+```
+
+- [datastructures-js /queue](https://github.com/datastructures-js/queue)
+
+```javascript
+// empty queue
+const queue = new Queue()
+
+// from an array
+const queue = new Queue([1, 2, 3])
+
+//    dequeue <-- [ ...] <-- enqueue
+
+// enqueue (push)
+queue.enqueue(10)
+queue.enqueue(20)
+queue.enqueue(30)
+
+// front : peeks on the front element of the queue
+queue.front()
+
+// back : peeks on the back element of the queue
+queue.back()
+
+// dequeue: removes and returns the front element of the queue in O(1) runtime.
+queue.dequeue() // remove 10
+
+// methods
+queue.size()
+queue.isEmpty()
+```
+
+## ✨ using sliding window
+
+```javascript
+
+[0  1  2]  3  4  5  6  // sum
+0  [1  2   3] 4  5  6  // sum + new (4) - old (0)
+                       //     + nums[i] - nums[i-k]
+```
+
+- Instead of using a queue.
+- precalculate value with fixed window size.
+- Update value using sliding window
+  - add the latest one `nums[i]`
+  - remove the oldest one `nums[i-k]` from the previous result.
+
+```javascript
+const N = nums.length
+
+let sum = 0
+for (let i = 0; i < k; i += 1) {
+  sum += nums[i]
+}
+
+let max = sum
+
+for (let i = k; i < N; i += 1) {
+  sum += nums[i] - nums[i - k]
+  if (max < sum) max = sum
+}
+
+return max / k
+```
+
+#### 🗒️ Typical problems
+
+- [643. Maximum Average Subarray I - Leetcode](https://leetcode.com/problems/maximum-average-subarray-i/)

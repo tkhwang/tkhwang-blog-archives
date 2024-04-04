@@ -1,0 +1,183 @@
+---
+title: 'leetcode 115. Distinct Subsequences | medium | recursive | javascript'
+date: '2022-11-16'
+tags: ['medium', 'recursive']
+draft: false
+summary: 'leetcode 115. Distinct Subsequences | medium | recursive | javascript'
+layout: PostLayout
+readTime: '5 minute read'
+---
+
+## 🗒️ Problems
+
+[Distinct Subsequences - LeetCode](https://leetcode.com/problems/distinct-subsequences/)
+
+```
+Given two strings s and t,
+return the number of distinct subsequences of s which equals t.
+
+The test cases are generated so that the answer fits on a 32-bit signed integer.
+```
+
+```
+Input: s = "rabbbit", t = "rabbit"
+Output: 3
+Explanation:
+As shown below, there are 3 ways you can generate "rabbit" from s.
+rabbbit
+rabbbit
+rabbbit
+```
+
+## ✨💡 Idea
+
+- Handle the matching case `s[is]` and `t[it]` recursively.
+
+## ⬇️ top-down recursive function
+
+- `dp()` returns the matching subsequences of `s[is:NS - 1]` and `t[it:NT - 1]`.
+- In basecase, it returns `1` (one case) when `t` can be found in `s` and return `0` when `t` is not found.
+
+```javascript
+const dp = (is, it) => {}
+```
+
+#### ⬇️ base case
+
+- When we reach out the end of `t`, it means that we found one case.
+- But when we reach out the end of `s` first, it means that we failed to find.
+
+```javascript
+const NS = s.length
+const NT = t.length
+
+const recursive = (is, it) => {
+  if (it >= NT) return 1
+  if (is >= NS) return 0
+}
+```
+
+#### ⬇️ When `s[is]` is not same as `t[it]`
+
+- We failed to find `t[it]` in `s[is]`.
+- Therefore we need to match the same target `t[it]` with the next source character `s[is]`.
+
+```javascript
+let res = 0
+res += dp(is + 1, it)
+```
+
+#### ⬇️ When `s[is]` is same as `t[it]`
+
+- Because we found target `t[it]`.
+- Therefore we need to match the next target `t[it + 1]` with the next source character `s[is + 1]`.
+
+```javascript
+  if (s[i] === t[j]) {
+    res += dp(is + 1, it + 1)
+  }
+}
+```
+
+- What about trying to match another source characters with the same target character `t[it]` ?
+- Definately it's OK.
+
+```javascript
+res += dp(is + 1, it)
+```
+
+### ⬇️ Top-down without memoization.
+
+- It causes TLE.
+
+```javascript
+var numDistinct = function (s, t) {
+  const NS = s.length
+  const NT = t.length
+
+  const dp = (is, it) => {
+    if (it >= NT) return 1
+    if (is >= NS) return 0
+
+    let local = 0
+    local += dp(is + 1, it)
+    if (s[is] === t[it]) {
+      local += dp(is + 1, it + 1)
+    }
+    return res
+  }
+
+  return dp(0, 0)
+}
+```
+
+### ⬇️🔥 My Solution
+
+- Add the memoization for better performance.
+
+```javascript
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {number}
+ */
+var numDistinct = function (s, t) {
+  const NS = s.length
+  const NT = t.length
+
+  const cache = {}
+  const genKey = (is, it) => `${is}:${it}`
+
+  const dp = (is, it) => {
+    if (it >= NT) return 1
+    if (is >= NS) return 0
+    if (cache[genKey(is, it)] !== undefined) return cache[genKey(is, it)]
+
+    let res = 0
+    res += dp(is + 1, it)
+    if (s[is] === t[it]) {
+      res += dp(is + 1, it + 1)
+    }
+    return (cache[genKey(is, it)] = res)
+  }
+
+  return dp(0, 0)
+}
+```
+
+## ⬆️🔥 bottom-up solution
+
+Can we write the bottom-up solution using the same logic ?
+
+```javascript
+/**
+ * @param {string} s
+ * @param {string} t
+ * @return {number}
+ */
+var numDistinct = function (s, t) {
+  const NS = s.length
+  const NT = t.length
+
+  // dp[is][it] => s[0:is-1] t[0:it-1]
+  const dp = Array(NS + 1)
+    .fill(null)
+    .map((_) => Array(NT + 1).fill(0))
+
+  for (let is = 0; is <= NS; is += 1) {
+    dp[is][0] = 1
+  }
+
+  for (let is = 1; is <= NS; is += 1) {
+    for (let it = 1; it <= NT; it += 1) {
+      if (s[is - 1] === t[it - 1]) {
+        dp[is][it] = dp[is - 1][it - 1] + dp[is - 1][it]
+      } else {
+        dp[is][it] = dp[is - 1][it]
+      }
+    }
+  }
+
+  return dp[NS][NT]
+}
+```

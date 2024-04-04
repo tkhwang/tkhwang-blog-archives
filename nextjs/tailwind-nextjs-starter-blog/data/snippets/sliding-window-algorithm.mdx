@@ -1,0 +1,70 @@
+---
+title: Sliding window algorithm in javascript
+date: '2023-01-11'
+tags: ['algorithm', 'sliding-window']
+draft: false
+summary: Sliding window algorithm in javascript
+images: []
+layout: PostSimple
+---
+
+## ✨ Background
+
+```
+[0,                     ...                  , N-1]
+      [ left,           ... , right ]
+      => shrink window               => expand window
+         if condition is NOT OK
+```
+
+- The idea behind the sliding window technique is to efficiently find the "best" window that fits some constraint.
+- Usually used for solving subarray (continuous array) problems.
+- Efficiently find the "best" window that fits some constraint.
+
+## 🔥 Algorithm
+
+- When `right` moves, which data should be updated ?
+- When should the `window` be shrinked ?
+- When `left` moves, which data should be updated ?
+- Where should we update the `result` : expanding or shrinking ?
+
+```javascript
+const needs = {}
+const window = {}
+
+let left = 0
+for (let right = 0; right < N; right += 1) {
+  // update window information
+
+  while (WINDOW_CONDITION_BROKEN) {
+    // remove/reduce arr[left] information in window
+    left += 1
+  }
+
+  // check whether window meets needs condition
+}
+```
+
+## 🗒️ Typical problems
+
+#### List
+
+- [Sliding Window Problems - List by @sachin_ak](https://leetcode.com/list/e5na1hcg/)
+
+#### Medium
+
+- [3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/)
+- [159. Longest Substring with At Most Two Distinct Characters](https://leetcode.com/problems/longest-substring-with-at-most-two-distinct-characters/)
+- [340. Longest Substring with At Most K Distinct Characters](https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/)
+- [209. Minimum Size Subarray Sum](https://leetcode.com/problems/minimum-size-subarray-sum/)
+- [904. Fruit Into Baskets](https://leetcode.com/problems/fruit-into-baskets/)
+- [1004. Max Consecutive Ones III](https://leetcode.com/problems/max-consecutive-ones-iii/)
+
+## 🏷️ Related tags
+
+- [#sliding-window](https://tkhwang.me/tags/sliding-window)
+
+## 📚 References
+
+- [(premium) LeetCode's Intervew Crash Course: Array - String - sliding window](https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/703/arraystrings/4502/)
+- [The Only Lists You Need For Your Interview Preparation](https://leetcode.com/discuss/interview-question/2069641/The-Only-Lists-You-Need-For-Your-Interview-Preparation)

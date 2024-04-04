@@ -1,0 +1,84 @@
+---
+title: Graph DFS (Depth-first-search) in javascript
+date: '2023-01-16'
+tags: ['algorithm', 'graph', 'dfs']
+draft: false
+summary: Graph DFS (Depth-first-search) in javascript
+images: []
+layout: PostSimple
+---
+
+## ✨ Recursive Algorithm
+
+- using `recursive` function.
+
+```javascript
+const dfs = (cur) => {
+  let res = 0
+
+  // do some logic
+
+  for (const next of graph[cur]) {
+    if (seen.has(next)) continue
+
+    seen.add(next)
+    ans += dfs(next)
+  }
+
+  return res
+}
+
+const seen = new Set([START_NODE])
+return dfs(START_NODE)
+```
+
+### 💡 Tips : Use parent node instead of using `seen` (`visited`)
+
+```javascript
+const dfs = (cur, parent) => {
+  if (!cur) return
+
+  for (const next of graph[cur]) {
+    // Block to move back to parent
+    if (next === parent) continue
+
+    // logic
+
+    dfs(next, cur)
+  }
+}
+
+dfs(0, -1)
+```
+
+## ✨ Iterative Algorithm
+
+- using `stack`.
+
+```javascript
+const dfs = (graph) => {
+  const stack = [START_NODE]
+  const seen = new Set([START_NODE])
+
+  let res = 0
+
+  while (stack.length) {
+    const cur = stack.pop()
+
+    // do some logic
+
+    for (const next of graph[cur]) {
+      if (seen.has(next)) continue
+
+      seen.add(next)
+      stack.push(next)
+    }
+  }
+
+  return res
+}
+```
+
+## 🏷️ Related tags
+
+- [#dfs](https://tkhwang.me/tags/dfs)

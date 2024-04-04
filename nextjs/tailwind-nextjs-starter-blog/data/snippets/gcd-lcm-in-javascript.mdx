@@ -1,0 +1,41 @@
+---
+title: GCD (Greatest Common Divisor) and LCM (Least Common Multiple) in javascript
+date: '2022-12-19'
+tags: ['algorithm', 'math']
+draft: false
+summary: GCD (Greatest Common Divisor) and LCM (Least Common Multiple) in javascript
+images: []
+layout: PostSimple
+---
+
+## 🔥 GCD (Greatest Common Divisor) : `O(log(num1 + num2))`
+
+- The GCD of `num1` and `num2` is the GCD of `num2` and `num1 % num2`.
+
+```javascript
+const getGCD = (num1, num2) => (num2 > 0 ? getGCD(num2, num1 % num2) : num1)
+```
+
+```javascript
+const getGCD = (num1, num2) => {
+  while (num2 > 0) {
+    let r = num1 % num2
+    num1 = num2
+    num2 = r
+  }
+
+  return num1
+}
+```
+
+## 🔥 LCM (Least Common Multiple)
+
+- First divide by gcd to prevent the overflow of the product of two numbers.
+
+```javascript
+const getLCM = (num1, num2) => (num1 / getGCD(num1, num2)) * num2
+```
+
+## 📚 References
+
+- [Program to find LCM of two numbers | GeeksForGeeks](https://www.geeksforgeeks.org/program-to-find-lcm-of-two-numbers/)

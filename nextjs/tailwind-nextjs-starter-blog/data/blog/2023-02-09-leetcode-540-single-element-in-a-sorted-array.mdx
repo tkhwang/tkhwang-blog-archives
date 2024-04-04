@@ -1,0 +1,114 @@
+---
+title: 'leetcode 540. Single Element in a Sorted Array | medium | binary-search | javascript'
+date: '2023-02-09'
+tags: ['medium', 'binary-search', 'general-binary-search']
+draft: false
+summary: 'leetcode 540. Single Element in a Sorted Array | medium | binary-search | javascript'
+# images: ['/static/images/8.jpeg']
+layout: PostLayout
+readTime: '5 minute read'
+---
+
+## 🗒️ Problems
+
+[540. Single Element in a Sorted Array - LeetCode](https://leetcode.com/problems/single-element-in-a-sorted-array/)
+
+```
+You are given a sorted array consisting of only integers
+where every element appears exactly twice,
+except for one element which appears exactly once.
+
+Return the single element that appears only once.
+
+Your solution must run in O(log n) time and O(1) space.
+```
+
+```
+Input: nums = [1,1,2,3,3,4,4,8,8]
+Output: 2
+```
+
+## 🤔 Understand problem
+
+```
+  0 1 2 3 4 5 6
+
+  1 1 2 2 3 4 4  // Math.floor(7/2) = 3
+  |-| |-| |-| |
+  * * * * * @ *
+          ^
+  1 1 2 3 3 4    // Math.floor(6/2) = 3
+  |-| |-| |-|
+  * * * @ * @
+      ^
+```
+
+- Good pair : `nums[even] nums[odd] = * *`
+- Bad pair : `nums[even] nums[odd] = * @`
+
+My job is to find the minimum even index that the value is different from tne next value.
+
+## 🍀 My Template
+
+- [II.1 Find the minimum value | Binary Search](https://tkhwang.me/snippets/binary-search-in-javascript)
+
+```javascript
+// [left, right] : Both inclusive ranges
+let left = MINIMUM_POSSIBLE_ANSWER
+let right = MAXMIMUM_POSSIBLE_ANSWER
+
+while (left <= right) {
+  const mid = Math.floor((left + right) / 2)
+
+  if (check(mid)) {
+    rignt = mid - 1
+  } else {
+    left = mid + 1
+  }
+  return left
+}
+```
+
+## 💡 Helper function
+
+```javascript
+const isOK = (index) => {
+  return nums[index] !== nums[index + 1]
+}
+```
+
+- If the value in even index is different from the value in odd index, we are in the good partition.
+- We need to find the minimum of this parition.
+
+## 🔥 My Solution
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var singleNonDuplicate = function (nums) {
+  const N = nums.length
+
+  let left = 0
+  let right = N - 1
+
+  const check = (index) => {
+    return nums[index] !== nums[index + 1]
+  }
+
+  while (left <= right) {
+    let mid = Math.floor((left + right) / 2)
+    if (mid % 2 === 1) mid -= 1
+
+    if (check(mid)) {
+      right = mid - 2
+    } else {
+      left = mid + 2
+    }
+  }
+  return nums[left]
+}
+```
+
+### 🙆‍♂️ Time complexity: `O(log n)`

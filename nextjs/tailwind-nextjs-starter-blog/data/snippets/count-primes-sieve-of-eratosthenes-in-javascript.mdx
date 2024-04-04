@@ -1,0 +1,82 @@
+---
+title: Sieve of Eratosthenes (how to count primes) in javascript
+date: '2022-12-21'
+tags: ['algorithm', 'math']
+draft: false
+summary: Sieve of Eratosthenes (how to count primes) in javascript
+images: []
+layout: PostSimple
+---
+
+## 🔥 Algorithm
+
+![img](https://upload.wikimedia.org/wikipedia/commons/b/b9/Sieve_of_Eratosthenes_animation.gif)[visual from the wikipedia page on the sieve of Eratosthenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes)
+
+- If only check until `Math.sqrt(N)`, you should count the number of primes again.
+
+```javascript
+/**
+ * @param {number} n
+ * @return {number}
+ */
+var countPrimes = function (N) {
+  const seen = Array(N + 1).fill(false)
+  let count = 0
+
+  for (let p = 2; p <= Math.sqrt(N); p += 1) {
+    if (seen[p]) continue
+
+    for (let i = p * p; i < N; i += p) {
+      seen[i] = true
+    }
+  }
+
+  for (let p = 2; p < N; p += 1) {
+    if (!seen[p]) count += 1
+  }
+
+  return count
+}
+```
+
+- If you check `seen[]` until `N`, you can check `count` in the same for the statement.
+
+```javascript
+var countPrimes = function (N) {
+  const seen = Array(N + 1).fill(false)
+  let count = 0
+
+  for (let p = 2; p < N; p += 1) {
+    if (seen[p]) continue
+
+    count += 1
+
+    for (let i = p * p; i < N; i += p) {
+      seen[i] = true
+    }
+  }
+
+  return count
+}
+```
+
+## 💡 Simple algorithm
+
+Sieve of Eratosthenes is good, but sometimes it's ok to use the simplest algorithm.
+
+```javascript
+const isPrime = (num) => {
+  for (let i = 2; i <= Math.sqrt(num); i += 1) {
+    if (num % i === 0) return false
+  }
+  return true
+}
+```
+
+## 🗒️ Typical problems
+
+- [204. Count Primes | Leetcode](https://leetcode.com/problems/count-primes/)
+
+## 📚 References
+
+- [204. Count Primes solution| Leetcode](https://leetcode.com/problems/count-primes/solution/)

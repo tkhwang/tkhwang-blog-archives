@@ -1,0 +1,144 @@
+---
+title: 'leetcode 518. Coin Change II | medium | dynamic-programming | javascript'
+date: '2023-03-09'
+tags: ['medium', 'coin-change', 'dynamic-programming']
+draft: false
+summary: 'leetcode 518. Coin Change II | medium | dynamic-programming | javascript'
+# images: ['/static/images/8.jpeg']
+layout: PostLayout
+readTime: '5 minute read'
+---
+
+## 🗒️ Problems
+
+[518. Coin Change II - Leetcode](https://leetcode.com/problems/coin-change-ii/)
+
+```
+You are given an integer array coins representing coins of different denominations and
+an integer amount representing a total amount of money.
+
+Return the number of combinations that make up that amount.
+If that amount of money cannot be made up by any combination of the coins, return 0.
+
+You may assume that you have an infinite number of each kind of coin.
+The answer is guaranteed to fit into a signed 32-bit integer.
+```
+
+```
+Input: amount = 5, coins = [1,2,5]
+Output: 4
+Explanation: there are four ways to make up the amount:
+5=5
+5=2+2+1
+5=2+1+1+1
+5=1+1+1+1+1
+```
+
+## 🤔 Understand problem
+
+- [322. Coin Change](https://leetcode.com/problems/coin-change/) asks us to answer the minimum number of coins usage.
+- [518. Coin Change II](https://leetcode.com/problems/coin-change-ii/) asks us to answer the number of combinations that make up that amount.
+
+## ⬇️ top-down: `dp(index, money)` function
+
+#### 🥳⬇️ Think differently
+
+- Is it possible to use coins upto the given `amount` ?
+
+#### basecase
+
+- If the money that I summed up `money` is the same as the given `amount`, I found one case.
+- If the money that I summed up `money` exceeds the given `amount`, it's the wrong case.
+
+```javascript
+  const N = coins.length
+
+  const dfs = (index, money) => {
+    if (money === amount) return 1
+    if (money > amount) return 0
+    if (index >= N) return 0
+
+    ...
+  }
+```
+
+#### main-code
+
+- Only choose the same or larger coin among `coins[]` to prevent duplication.
+- For not taking this coin, `dfs(index + 1, money)`.
+- For taking this coin, `dfs(index, money + coins[index])`
+  - because I can use the same again later if money is available.
+
+```javascript
+const dfs = (index, money) => {
+  // basecase
+
+  let res = 0
+  // use
+  res += dfs(index, money + coins[index])
+  // not use
+  res += dfs(index + 1, money)
+
+  return res
+}
+```
+
+#### ⬇️ top-down without memoization
+
+- No memoization causes TLE.
+
+```javascript
+var change = function (amount, coins) {
+  const N = coins.length
+
+  const dfs = (index, money) => {
+    if (money === amount) return 1
+    if (money > amount) return 0
+    if (index >= N) return 0
+
+    let res = 0
+    // use
+    res += dfs(index, money + coins[index])
+    // not use
+    res += dfs(index + 1, money)
+
+    return res
+  }
+
+  return dfs(0, 0)
+}
+```
+
+#### 🔥⬇️ top-down with memoization
+
+```javascript
+/**
+ * @param {number} amount
+ * @param {number[]} coins
+ * @return {number}
+ */
+var change = function (amount, coins) {
+  const N = coins.length
+  const cache = {}
+  const genKey = (index, money) => `${index}:${money}`
+
+  const dfs = (index, money) => {
+    if (money === amount) return 1
+    if (money > amount) return 0
+    if (index >= N) return 0
+    if (cache[genKey(index, money)] !== undefined) return cache[genKey(index, money)]
+
+    let res = 0
+    // use
+    res += dfs(index, money + coins[index])
+    // not use
+    res += dfs(index + 1, money)
+
+    return (cache[genKey(index, money)] = res)
+  }
+
+  return dfs(0, 0)
+}
+```
+
+#### 🙆‍♂️ Time complexity: `O(N*m)`

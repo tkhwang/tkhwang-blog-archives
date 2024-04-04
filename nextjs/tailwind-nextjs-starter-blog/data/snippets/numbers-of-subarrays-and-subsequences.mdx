@@ -1,0 +1,62 @@
+---
+title: 'Count of possible subarrays and subsequences using given length of Array'
+date: '2022-12-02'
+tags: ['algorithm', 'math']
+draft: false
+summary: 'How to calculate the count of possible subarrays and subsequences of given length of Array'
+images: []
+layout: PostSimple
+---
+
+## ✨ Subarrays
+
+Count of possible **subarrays** using given length of Array
+
+- The count of the subarray is the number of ends position possible for each index `i` elements of the array can be `(N – i)`,
+
+Therefore the count of the subarray for an array of size N can be:
+
+```javascript
+// N
+ |-------------------|
+ |-------|           |
+ |---|   |           |
+ |   |   |           |
+ 0   1   2  ...    N - 1
+ 1 + 2 + 3 + ... +   N
+
+
+  N * (N+1)
+= ---------
+     2
+```
+
+```javascript
+const countSubarray = (n) => (n * (n + 1)) / 2
+```
+
+## ✨ Subsequences
+
+Count of possible subsequences using given length of Array
+
+- The count of the subsequence possible is each element of the array can be included in a subsequence or not.
+
+Therefore, the choice for each element is 2.
+
+```javascript
+// N
+
+2 * 2 * ... * 2 = 2^N
+```
+
+```javascript
+const countSubsequence = (n) => Math.pow(2, n)
+```
+
+## 🗒️ Typical problems
+
+## 🏷️ Related tags
+
+## 📚 References
+
+- [Count of possible subarrays and subsequences using given length of Array | 30secondsofcode.org](https://www.geeksforgeeks.org/count-of-possible-subarrays-and-subsequences-using-given-length-of-array/)

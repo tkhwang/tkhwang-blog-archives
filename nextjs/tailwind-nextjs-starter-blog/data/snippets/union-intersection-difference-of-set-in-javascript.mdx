@@ -1,0 +1,63 @@
+---
+title: Union, Intersection, and Difference of Set in javascript
+date: '2022-12-20'
+tags: ['algorithm', 'two-pointers']
+draft: false
+summary: Union, Intersection, and Difference of Set in javascript
+images: []
+layout: PostSimple
+---
+
+## 🔥 Union of Set
+
+```javascript
+const union = (a, b) => new Set([...a, ...b])
+```
+
+#### Usage
+
+```javascript
+const a = new Set([1, 2, 3])
+const b = new Set([4, 3, 2])
+
+const un = union(a, b)
+// Set(4) {1, 2, 3, 4}
+```
+
+## 🔥 Intersection of Set
+
+```javascript
+const intersection = (a, b) => new Set([...a].filter((v) => b.has(v)))
+```
+
+#### Usage
+
+```javascript
+const a = new Set([1, 2, 3])
+const b = new Set([4, 3, 2])
+
+const int = intersection(a, b)
+// Set(2) {2, 3}
+```
+
+## 🔥 Difference of Set
+
+```javascript
+const difference = (a, b) => new Set([...a].filter((v) => !b.has(v)))
+```
+
+#### Usage
+
+```javascript
+const a = new Set([1, 2, 3])
+const b = new Set([4, 3, 2])
+
+const differenceA = difference(a, b)
+// Set(1) {1}
+const differenceB = difference(b, a)
+// Set(1) {4}
+```
+
+## 📚 References
+
+- [ECMAScript 6 sets: union, intersection, difference](https://2ality.com/2015/01/es6-set-operations.html)

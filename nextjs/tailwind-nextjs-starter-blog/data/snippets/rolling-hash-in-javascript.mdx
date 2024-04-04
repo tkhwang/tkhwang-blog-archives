@@ -1,0 +1,59 @@
+---
+title: Rolling hash in javascript
+date: '2023-01-12'
+tags: ['algorithm', 'rolling-hash']
+draft: false
+summary: What is the rolling hash and how to use rolling hash in javascript ?
+images: []
+layout: PostSimple
+---
+
+## 💡 When to use ?
+
+- To find the `fixed size` string in `O(N)`.
+
+```javascript
+haystack = "sadbutsad"
+needle = "sad"
+
+Find "sad" in "sadbutsad"
+ _     _
+| |   | |
+sadbutsad
+```
+
+## 🔥 Algorithm
+
+- It's more easier to calculate from the `backward`.
+  - Just enqueue the number as it is.
+  - When queue is exceeded, dequeue the `oldest` and subtract this `oldest` after multiplying the maximum base (`10 ** queue.size()`) from hash.
+- Update hash using [this method](https://tkhwang.me/snippets/how-to-convert-string-to-number-in-javascript).
+
+```javascript
+const nums = [6, 5, 4, 3, 2, 1]
+const N = nums.length
+
+const queue = new Queue()
+let hash = 0
+
+for (let i = N - 1; i >= 0; i -= 1) {
+  const cur = nums[i]
+
+  queue.enqueue(cur)
+  hash = 10 * hash + cur
+
+  if (queue.size() < NT) continue
+
+  if (queue.size() > NT) {
+    const oldest = queue.dequeue()
+    hash -= oldest * 10 ** queue.size()
+  }
+
+  // check hash
+  console.log(hash)
+}
+```
+
+## 🗒️ Typical problems
+
+- [28. Find the Index of the First Occurrence in a String - Leetcode](https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/)

@@ -1,0 +1,79 @@
+---
+title: Monotonic stack in javascript
+date: '2023-01-12'
+tags: ['algorithm', 'stack', 'monotonic-stack']
+draft: false
+summary: Monotonic stack in javascript
+images: []
+layout: PostSimple
+---
+
+## ✨ Algorithm
+
+```
+To find the "next" element based on some criteria
+```
+
+- When stack is not empty, before we push a num onto the stack, we first pop from the stack if the monotonic property would be violated.
+- Store value (or index) to the stack.
+
+## ⬆️🔥 (A) Find larger value
+
+```javascript
+// nums[]
+const stack = []
+
+for (const [i, num] of nums.entries()) {
+  // When current value is greater than last value in stack
+  //      nums[i]             >         nums[stack.at(-1)];
+  // the larger value is found.
+  while (stack.length && nums[stack.at(-1)] < num) {
+    const pop = stack.pop()
+
+    // do something
+  }
+
+  stack.push(i)
+}
+```
+
+{/* ### ⬆️💡 (A.1) Tips */}
+
+## ⬇️🔥 (B) Find smaller value
+
+```javascript
+// nums[]
+const stack = []
+
+for (const [i, num] of nums.entries()) {
+  // When current value is smaller than last value in stack
+  //      nums[i]             <         nums[stack.at(-1)];
+  // the smaller value is found.
+  while (stack.length && nums[stack.at(-1)] > num) {
+    const pop = stack.pop()
+
+    // do something
+  }
+
+  stack.push(i)
+}
+```
+
+{/* ### ⬇️💡 (A.1) Tips */}
+
+## 🗒️ Typical problems
+
+#### Easy
+
+- [496. Next Greater Element I - Leetcode](https://leetcode.com/problems/next-greater-element-i/)
+
+#### Medium
+
+- [739. Daily Temperatures - Leetcode](https://leetcode.com/problems/daily-temperatures/description/)
+- [456. 132 Pattern - Leetcode](https://leetcode.com/problems/132-pattern/)
+
+## 🏷️ Related tags
+
+## 📚 References
+
+- [(premium) LeetCode's Interview Crash Course Data Structures and Algorithms](https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/706/stacks-and-queues/4517/)

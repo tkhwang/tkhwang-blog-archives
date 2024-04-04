@@ -1,0 +1,37 @@
+---
+title: Tree BFS (Breath-first-search) in javascript
+date: '2023-01-13'
+tags: ['algorithm', 'tree', 'dfs']
+draft: false
+summary: Tree BFS (Breath-first-search) in javascript
+images: []
+layout: PostSimple
+---
+
+## ✨ Iterative Algorithm
+
+```javascript
+const bfs = (root) => {
+  const queue = [root]
+  let res = 0
+
+  while (queue.length) {
+    const len = queue.length
+
+    for (let i = 0; i < len; i += 1) {
+      const cur = queue.shift()
+
+      // do logic
+
+      if (node.left) queue.push(node.left)
+      if (node.right) queue.push(node.right)
+    }
+  }
+}
+
+return bfs(root)
+```
+
+## 🏷️ Related tags
+
+- [#tree](https://tkhwang.me/tags/tree)

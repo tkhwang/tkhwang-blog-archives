@@ -1,0 +1,48 @@
+---
+title: Backtracking in javascript
+date: '2023-01-18'
+tags: ['algorithm', 'backtracking']
+draft: false
+summary: Backtracking in javascript
+images: []
+layout: PostSimple
+---
+
+## ✨ Algorithm
+
+```javascript
+const backtrack = (cur, OTHER_ARGS...) => {
+    if (BASE_CASE) {
+        // do some logic
+        return;
+    }
+
+    let res = 0;
+    for (ITERATE_OVER_INPUT) {
+        // modify the current input
+        cur.push(CHANGE);
+
+        ans += backtrack(cur, OTHER_ARGS...);
+
+        // undo the modification of the current state
+        cur.pop();
+    }
+    return res;
+}
+
+backtrack([], ...);
+```
+
+## 🏷️ Related tags
+
+- [#backtrack](https://tkhwang.me/tags/backtrack)
+
+## 🗒️ Typical problems
+
+#### List
+
+- [Backtrack - List by @sachin_ak](https://leetcode.com/list/e9zey1gd/)
+
+## 📚 References
+
+- [The Only Lists You Need For Your Interview Preparation](https://leetcode.com/discuss/interview-question/2069641/The-Only-Lists-You-Need-For-Your-Interview-Preparation)

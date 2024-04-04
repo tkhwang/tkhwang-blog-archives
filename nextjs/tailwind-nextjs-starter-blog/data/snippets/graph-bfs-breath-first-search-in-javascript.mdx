@@ -1,0 +1,85 @@
+---
+title: Graph BFS (Breath-first-search) in javascript
+date: '2023-01-16'
+tags: ['algorithm', 'graph', 'bfs']
+draft: false
+summary: Graph BFS (Breath-first-search) in javascript
+images: []
+layout: PostSimple
+---
+
+## ✨ Basic BFS
+
+- using `queue`.
+- check `seen` during validating the next node and add.
+
+```javascript
+const bfs = (graph) => {
+  const queue = [START_NODE]
+  const seen = new Set([START_NODE])
+  let res = 0
+
+  while (queue.length) {
+    const len = queue.length
+
+    for (let i = 0; i < len; i++) {
+      const [cur] = queue.shift()
+
+      // do some logic
+      // if destination found, return
+
+      for (const next of graph[cur]) {
+        if (seen.has(next)) continue
+
+        seen.add(next)
+        queue.push(next)
+      }
+    }
+  }
+
+  return res
+}
+```
+
+## ✨ Using minHeap for lowest cost
+
+- dequeue the lowest one.
+- Check whether it was visited, skip it if so.
+- If valid, mark visited and do the logic.
+- Enqueue the possible candidates at current node.
+- Repeat
+
+```javascript
+const bfs = (graph) => {
+  const minHeap = new MinPriorityQueue({ compare: (a, b) => a[0] - b[0] })
+  const seen = new Set([START_NODE])
+  let res = 0
+
+  while (minHeap.size()) {
+    const [cost, r, c] = minHeap.dequeue()
+
+    // do some logic
+    // if destination found, return
+    if (r === ROWS - 1 && c === COLS - 1) return cost
+
+    if (seen.has(genKey(r, c))) continue
+    seen.add(genKey(r, c))
+
+    for (const [dR, dC] of directions) {
+      const newR = r + dR
+      const newC = c + dC
+
+      if (!isValid(newR, newC)) continue
+
+      // some logic
+      minHeap.enqueue([nextCost, newR, newC])
+    }
+  }
+
+  return res
+}
+```
+
+## 🏷️ Related tags
+
+- [#bfs](https://tkhwang.me/tags/bfs)

@@ -1,0 +1,122 @@
+---
+title: 'leetcode 2653. Sliding Subarray Beauty | medium | frequency | javascript'
+date: '2023-04-24'
+tags: ['medium', 'frequency']
+draft: false
+summary: 'leetcode 2653. Sliding Subarray Beauty | medium | frequency | javascript'
+# images: ['/static/images/8.jpeg']
+layout: PostLayout
+readTime: '5 minute read'
+---
+
+## 🗒️ Problems
+
+[2653. Sliding Subarray Beauty - Leetcode](https://leetcode.com/problems/sliding-subarray-beauty/)
+
+```
+Given an integer array nums containing n integers, find the beauty of each subarray of size k.
+The beauty of a subarray is the xth smallest integer in the subarray if it is negative, or 0
+if there are fewer than x negative integers.
+
+Return an integer array containing n - k + 1 integers,
+which denote the beauty of the subarrays in order from the first index in the array.
+
+A subarray is a contiguous non-empty sequence of elements within an array.
+```
+
+```
+Input: nums = [1,-1,-3,-2,3], k = 3, x = 2
+Output: [-1,-2,-2]
+Explanation: There are 3 subarrays with size k = 3.
+The first subarray is [1, -1, -3] and the 2nd smallest negative integer is -1.
+The second subarray is [-1, -3, -2] and the 2nd smallest negative integer is -2.
+The third subarray is [-3, -2, 3] and the 2nd smallest negative integer is -2.
+```
+
+#### Constraints:
+
+```
+n == nums.length
+1 <= n <= 105
+1 <= k <= n
+1 <= x <= k
+-50 <= nums[i] <= 50
+```
+
+## 🤔 Understand problem
+
+- k-sized subarrays, find x-th smallest negative value.
+
+```
+nums = [1, -1, -3, -2, 3]    sorted           value
+       [1, -1, -3]           [-3, -1, 1]      -1
+          [-1, -3, -2]       [-3, -2, -1]     -2
+              [-3, -2, 3]    [-3, -2,  3]     -2
+```
+
+## 🤦‍♂️ First attempt
+
+- First, I'm trying to solve using queue and maxHeap.
+- For Heap, it's hard to get rid of oldest one out of scope.
+
+## 🥳 Think differently
+
+- The problem is how to sort k-sized subarray ?
+- Check input data rage: `-50 <= nums[i] <= 50`.
+- Is it possible to find x-th smallest value without sorting ?
+  - Update frequency of shown number.
+  - How to find the smallest negative one ?
+    - Just find the first shown number with frequency 1 from -50 to -1
+  - How to find the x-th smallest negative value ?
+    - Sum the frequency of shown number from -50 to -1.
+    - If its summed frequency exceeds the target x, you found that number.
+
+## 🔥 My Solution
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} k
+ * @param {number} x
+ * @return {number[]}
+ */
+var getSubarrayBeauty = function (nums, k, x) {
+  const N = nums.length
+
+  const res = []
+  const freq = {}
+
+  const findXthSmallest = (freq, x) => {
+    let count = 0
+    for (let i = -50; i < 0; i += 1) {
+      count += freq[i] || 0
+      if (count >= x) return i
+    }
+    return 0
+  }
+
+  for (let i = 0; i < k - 1; i += 1) {
+    const cur = nums[i]
+    freq[cur] = (freq[cur] || 0) + 1
+  }
+
+  for (let i = k - 1; i < N; i += 1) {
+    const cur = nums[i]
+    freq[cur] = (freq[cur] || 0) + 1
+
+    const value = findXthSmallest(freq, x)
+    res.push(value)
+
+    //               size x         [2] add
+    //   |------------------------|
+    //    [1] remove
+    //    i - k + 1, ... , i-1,  i, i +1
+    const oldest = nums[i - k + 1]
+    freq[oldest] -= 1
+  }
+
+  return res
+}
+```
+
+### 🙆‍♂️ Time complexity: `O(n)`

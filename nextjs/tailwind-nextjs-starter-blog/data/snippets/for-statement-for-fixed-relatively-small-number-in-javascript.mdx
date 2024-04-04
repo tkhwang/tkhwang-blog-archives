@@ -1,0 +1,46 @@
+---
+title: For statement for fixed and relatively  small number in javascript
+date: '2022-12-10'
+tags: ['algorithm', 'stack', 'monotonic-stack']
+draft: false
+summary: For statement for fixed and relatively   small  number in javascript
+images: []
+layout: PostSimple
+---
+
+## ✨ Nested for statement : `O(n^2)` time complexity
+
+```javascript
+for (let i = 0; i < N;; i += 1) {
+    for (let j = i + 1; j < N; j += 1) {
+        // do something
+    }
+}
+```
+
+## ✨ For statement for fixed and relatively small number
+
+- It doesn't depend on the input data size.
+- If its size is relatively small and its value is fixed, the overall time complexity is much faster than that.
+
+### 🍀 for alphabets (26) :
+
+```javascript
+for (let i = 0; i < 26; i += 1) {
+  for (let j = i + 1; j < 26; j += 1) {
+    ///
+  }
+}
+```
+
+### 🍀 for data ranges (50) :
+
+```javascript
+for (let i = -50; i < 0; i += 1) {
+  //
+}
+```
+
+#### 🗒️ Typical problems
+
+- [2653. Sliding Subarray Beauty - Leetcode](https://leetcode.com/problems/sliding-subarray-beauty/)

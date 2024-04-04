@@ -1,0 +1,45 @@
+---
+title: Kruskal’s Algorithm to construct minimum spanning tree in javascript
+date: '2023-01-20'
+tags: ['algorithm', 'kruskal', 'union-find']
+draft: false
+summary: Javascript Kruskal’s Algorithm to construct minimum spanning tree
+images: []
+layout: PostSimple
+---
+
+## ✨ Algorithm
+
+```
+Add the minimum cost edge if it won't cause a cycle until connecting n-1 edges.
+```
+
+- For `n` nodes, `n-1` edges is required for constructing minimum spanning tree.
+- For detecting cycle, [union-find](https://tkhwang.me/snippets/union-find-in-javascript) algorithm is used.
+
+```javascript
+var minimumCost = function (n, connections) {
+  // sort cost ascendingly.
+  // [ begin, end, cost]
+  connections.sort((a, b) => a[2] - b[2])
+
+  const uf = new UnionFind(n)
+  let res = 0
+
+  for (const [u, v, cost] of connections) {
+    // if u and v are not connected (don't have a cycle)
+    if (uf.find(u) !== uf.find(v)) {
+      res += cost
+      // connect and make it one.
+      uf.union(u, v)
+    }
+  }
+
+  // if all nodes are connected (only one component is there), return the cost.
+  return uf.getComponents() === 1 ? res : -1
+}
+```
+
+## 🗒️ Typical problem
+
+- [1135. Connecting Cities With Minimum Cost - Leetcode](https://leetcode.com/problems/connecting-cities-with-minimum-cost/)

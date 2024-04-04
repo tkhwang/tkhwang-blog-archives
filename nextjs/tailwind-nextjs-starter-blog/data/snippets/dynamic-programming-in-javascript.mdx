@@ -1,0 +1,71 @@
+---
+title: Dynamic Programming in javascript
+date: '2023-02-11'
+tags: ['algorithm', 'math']
+draft: false
+summary: Dynamic Programming in javascript
+images: []
+layout: PostSimple
+---
+
+## ✨ Fatures
+
+#### Overlapping subproblems
+
+- The problem can be broken down into `overlapping subproblems`
+- smaller versions of the original problem that are re-used multiple times.
+
+#### Optimal substructure
+
+- The problem has an `optimal substructure`
+- an optimal solution can be formed from optimal solutions to the overlapping subproblems of the original problem.
+
+## 💡 When to Use DP
+
+### First hint
+
+The problem will ask for the `optimum value (maximum or minimum)` of something, or the `number of ways` there are to do something.
+For example:
+
+- What is the `minimum` cost of doing...
+- What is the `maximum` profit from...
+- How `many ways` are there to do...
+- What is the `longest` possible...
+- Is it `possible` to reach a certain point...
+
+### Second hint
+
+```
+That future "decisions" depend on earlier decisions.
+```
+
+- Deciding to do something at one step may affect the ability to do something in a later step.
+- This characteristic is what makes a greedy algorithm invalid for a DP problem - we need to factor in results from previous decisions. Admittedly, this characteristic is not as well defined as the first one, and the best way to identify it is to go through some examples.a
+
+## 🍀 Framework for DP Problems
+
+- A `function` or `data structure` that will compute/contain the answer to the problem for every given state
+  - `dp()` for top-down solution
+  - `dp[]` for bottom-up solution
+- A `recurrence relation` to transition between states.
+- `Base cases`, so that our recurrence relation doesn't go on infinitely.
+
+## 💡 Bottom-up solution `dp[]`
+
+- Usually, it shows better performance.
+
+## 💡 Top-down solution `dp()`
+
+- Usually, memoization is necessary.
+- For memoization, `dp()` should return value, not to use the global variable.
+- For calculation the number of cases
+  - For good case, return `1`.
+  - For wrong case, return `0`.
+
+## 🏷️ Related tags
+
+- [#dynamic-programming](https://tkhwang.me/tags/dynamic-programming)
+
+## 📚 References
+
+- [(premium) Leetcode explorer card: dynamic programming](https://leetcode.com/explore/learn/card/dynamic-programming/)

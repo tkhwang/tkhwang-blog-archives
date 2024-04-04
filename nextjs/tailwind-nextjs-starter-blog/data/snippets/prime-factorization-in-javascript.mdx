@@ -1,0 +1,58 @@
+---
+title: Prime Factorization in javascript
+date: '2022-12-20'
+tags: ['algorithm', 'math']
+draft: false
+summary: Prime Factorization in javascript
+images: []
+layout: PostSimple
+---
+
+## 🔥 Algorithm: array return
+
+```javascript
+const primeFactors = (num) => {
+  const res = []
+  let prime = 2
+
+  while (num > 1) {
+    if (num % prime === 0) {
+      res.push(prime)
+      num /= prime
+    } else {
+      prime += 1
+    }
+  }
+  return res
+}
+```
+
+```javascript
+primeFactors(100)
+// [2, 2, 5, 5]
+```
+
+## 🔥 Algorithm: object return
+
+```javascript
+const primeFactors = (n) => {
+  let counts = {}
+  for (let x = 2; x * x <= n; x++) {
+    while (n % x === 0) {
+      counts[x] = (counts[x] || 0) + 1
+      n /= x
+    }
+  }
+  if (n > 1) counts[n] = (counts[n] || 0) + 1
+  return counts
+}
+```
+
+```javascript
+primeFactors(100)
+// {2: 2, 5: 2}
+```
+
+## 📚 References
+
+- [Prime factors of number | 30secondsofcode.org](https://www.30secondsofcode.org/js/s/prime-factors)

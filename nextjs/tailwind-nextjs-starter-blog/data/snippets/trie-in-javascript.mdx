@@ -1,0 +1,33 @@
+---
+title: Trie in javascript
+date: '2023-02-10'
+tags: ['algorithm', 'trie']
+draft: false
+summary: Trie in javascript
+images: []
+layout: PostSimple
+---
+
+## ✨ Algorithm
+
+- Very simple implementation.
+- Check word ending using "word" field.
+
+```javascript
+const trie = {}
+
+for (const word of words) {
+  let node = trie
+  for (const ch of word) {
+    if (node[ch] === undefined) node[ch] = {}
+    node = node[ch]
+  }
+  node['word'] = word
+}
+```
+
+## 🗒️ Typical problems
+
+- [208. Implement Trie (Prefix Tree) - Leetcode](https://leetcode.com/problems/implement-trie-prefix-tree/)
+
+## 🏷️ Related tags

@@ -1,0 +1,43 @@
+---
+title: How to calculate the modulo of negative number in javascript
+date: '2022-12-19'
+tags: ['algorithm', 'math']
+draft: false
+summary: The modulo of a negative number in javascript is negative. Why ?
+images: []
+layout: PostSimple
+---
+
+## modulo of the positive number
+
+```javascript
+// num % m
+num % m
+```
+
+## 🔥 modulo of a negative number
+
+To achieve the same result in Javascript,
+you can use a workaround by
+
+- adding the divisor to the dividend
+- computing the modulo operation.
+
+This will ensure that the dividend is positive and the modulo operation returns a positive result.
+
+```javascript
+// num % m
+;((num % m) + m) % m
+```
+
+## 🔥 algorithm
+
+```javascript
+const mod = (num % m) => {
+    return ((num % m) + m) % m;
+}
+```
+
+## 📚 References
+
+- [JavaScript % (modulo) gives a negative result for negative numbers](https://stackoverflow.com/questions/4467539/javascript-modulo-gives-a-negative-result-for-negative-numbers)

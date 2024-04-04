@@ -1,0 +1,135 @@
+---
+title: Tree DFS (Depth-first-search) in javascript
+date: '2023-01-13'
+tags: ['algorithm', 'tree', 'dfs']
+draft: false
+summary: Tree DFS (Depth-first-search) in javascript
+images: []
+layout: PostSimple
+---
+
+## ✨ Recursive Algorithm
+
+```javascript
+let res = 0
+
+const dfs = (node) => {
+  if (!node) return
+
+  // pre-order
+  dfs(node.left)
+  // in-order
+  dfs(node.right)
+  // post-order
+}
+
+dfs(root)
+
+return res
+```
+
+### ⬇️ pre-order : top-down traversal from top to bottom
+
+#### Question
+
+- Can you determine some parameters to help the node know its answer?
+- Can you use these parameters and the value of the node itself to determine what should be the parameters passed to its children?
+
+```javascript
+const dfs = (node) => {
+  if (!node) return
+
+  // pre-order
+  dfs(node.left)
+  dfs(node.right)
+}
+```
+
+- In preorder traversal, logic is done on the current node before moving to the children.
+- Let's say that we wanted to just print the value of each node in the tree to the console.
+- In that case, at any given node, we would print the current node's value, then recursively call the left child, then recursively call the right child (or right then left, it doesn't matter, but left before right is more common).
+
+#### 🗒️ Typical problems
+
+### in-order
+
+```javascript
+const dfs = (node) => {
+  if (!node) return
+
+  dfs(node.left)
+  // in-order
+  dfs(node.right)
+}
+```
+
+- For inorder traversal, we first recursively call the left child, then perform logic (print in thise case) on the current node, then recursively call the right child.
+- This means no logic will be done until we reach a node without a left child since calling on the left child takes priority over performing logic.
+
+#### 🗒️ Typical problems
+
+- [783. Minimum Distance Between BST Nodes - Leetcode](https://leetcode.com/problems/minimum-distance-between-bst-nodes/)
+- [99. Recover Binary Search Tree - Leetcode](https://leetcode.com/problems/recover-binary-search-tree/)
+
+### ⬆️ post-order : bottom-up traversal from bottom to root
+
+#### Question
+
+- If you know the answer of its children, can you calculate the answer of that node?
+
+```javascript
+const dfs = (node) => {
+  if (!node) return
+
+  dfs(node.left)
+  dfs(node.right)
+  // post-order
+}
+```
+
+- We recursively call on the children first and then perform logic on the current node.
+- This means no logic will be done until we reach a leaf node since calling on the children takes priority over performing logic.
+- In a postorder traversal, the root is the last node where logic is done.
+
+#### 🗒️ Typical problems
+
+- [104. Maximum Depth of Binary Tree - Leetcode](https://leetcode.com/problems/maximum-depth-of-binary-tree/)
+- [111. Minimum Depth of Binary Tree - Leetcode](https://leetcode.com/problems/minimum-depth-of-binary-tree/)
+- [124. Binary Tree Maximum Path Sum - Leetcode](https://leetcode.com/problems/binary-tree-maximum-path-sum/)
+
+## ✨ Iterative Algorithm
+
+```javascript
+const dfs = (root) => [
+    const stack = [ roote ];
+    let res = 0;
+
+    while (stack.length) {
+        const node = stack.pop();
+
+        // do some logic
+
+        if (node.left) stack.push(node.left);
+        if (node.right) stack.push(node.right);
+    }
+
+    return res;
+]
+
+return dfs(root);
+```
+
+## 🗒️ Typical problems
+
+#### List
+
+- [Tree For Placement - List by @sachin_ak](https://leetcode.com/list/e5xnbz4r/)
+
+## 🏷️ Related tags
+
+- [#tree](https://tkhwang.me/tags/tree)
+
+## 📚 References
+
+- [(premium) LICC (Leetcode's Interview Crash Course)](https://leetcode.com/explore/learn/card/data-structure-tree/17/solve-problems-recursively/534/)
+- [The Only Lists You Need For Your Interview Preparation](https://leetcode.com/discuss/interview-question/2069641/The-Only-Lists-You-Need-For-Your-Interview-Preparation)

@@ -1,0 +1,47 @@
+---
+title: Find number of subarrays that fit an exact criteria in javascript
+date: '2023-01-12'
+tags: ['algorithm']
+draft: false
+summary: Find number of subarrays that fit an exact criteria in javascript
+images: []
+layout: PostSimple
+---
+
+## ✨ Algorithm
+
+- idea
+  - matching : two-sum
+  - count : hashMap
+
+```javascript
+
+       0    1    2     3   4   5
+                      cur
+          cur-k
+```
+
+- Looking for sub-array which meets `k`.
+- Current value is `cur`.
+
+```javascript
+const count = { 0: 1 }
+
+let res = 0
+let cur = 0
+
+for (const num of nums) {
+  // do logic to change cur
+
+  if (obj[cur - k] !== undefined) res += obj[cur - k]
+  obj[cur] = (obj[cur] || 0) + 1
+}
+
+return res
+```
+
+## 🗒️ Typical problems
+
+## 📚 References
+
+- [LCIC (LeetCode Interview Crash Course)](https://leetcode.com/explore/interview/card/leetcodes-interview-crash-course-data-structures-and-algorithms/713/interviews-and-tools/4545/)

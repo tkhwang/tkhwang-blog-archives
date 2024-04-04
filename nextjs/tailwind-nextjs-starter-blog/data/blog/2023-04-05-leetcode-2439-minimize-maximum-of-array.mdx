@@ -1,0 +1,166 @@
+---
+title: 'leetcode 2439. Minimize Maximum of Array | medium | binary-search | javascript'
+date: '2023-04-05'
+tags: ['medium', 'binary-search', 'general-binary-search']
+draft: false
+summary: 'leetcode 2439. Minimize Maximum of Array | medium | binary-search | javascript'
+# images: ['/static/images/8.jpeg']
+layout: PostLayout
+readTime: '5 minute read'
+---
+
+## 🗒️ Problems
+
+[2439. Minimize Maximum of Array - Leetcode](https://leetcode.com/problems/minimize-maximum-of-array/)
+
+```
+You are given a 0-indexed array nums comprising of n non-negative integers.
+In one operation, you must:
+
+Choose an integer i such that 1 <= i < n and nums[i] > 0.
+* Decrease nums[i] by 1.
+* Increase nums[i - 1] by 1.
+
+Return the minimum possible value of the maximum integer of nums
+after performing any number of operations.
+```
+
+```
+Input: nums = [3,7,1,6]
+Output: 5
+Explanation:
+One set of optimal operations is as follows:
+1. Choose i = 1, and nums becomes [4,6,1,6].
+2. Choose i = 3, and nums becomes [4,6,2,5].
+3. Choose i = 1, and nums becomes [5,5,2,5].
+The maximum integer of nums is 5.
+It can be shown that the maximum number cannot be less than 5.
+Therefore, we return 5.
+```
+
+#### Constraints:
+
+- n == nums.length
+- `2 <= n <= 10^5`
+- `0 <= nums[i] <= 10^9`
+
+## 🤔 Understand problem
+
+- I can do one operation
+  - decrease current number by 1
+  - increase previous number by 1
+- What the minimum of the maximum of nums ?
+
+## 🥳 Think differently
+
+- Move one from cur to previous.
+- `nums[0]` is no way to decrease.
+- Can I use [the generalized binary search algorithm to find the minimum](https://tkhwang.me/snippets/binary-search-in-javascript) ?
+  - binary search for the maximum number
+    - Is it possible to make the maximum value to be given number ?
+    - Find the minimum of the maximum
+
+## ✨📏 [Basic template for finding the minimum](https://tkhwang.me/snippets/binary-search-in-javascript)
+
+```
+               left, right
+                /\
+                 |
+```
+
+```javascript
+let left = MIN
+let right = MAX
+
+while (left <= right) {
+  const mid = Math.floor((left + right) / 2)
+
+  if (isOK(mid)) {
+    right = mid - 1
+  } else {
+    left = mid + 1
+  }
+}
+
+return left
+```
+
+## 🍀📏 `isOK(max)` logic
+
+Is is possible to make the maximum number to be given number `max` ?
+
+- `nums[0]` can not be decreased. If `nums[0]` is greater than the given max, it will fail.
+- Check from the end backwards to the beginning.
+- If current number is smaller than the given max, it's OK.
+- If current number is greater than the given max, it should be decreased to make the maximum number to be the given `max`.
+  - Apply one operation.
+  - decrease cur by diff (`max - cur`) and increase prv by diff.
+- Finally check the most increased `nums[0]` is same or smaller than the given `max`.
+
+```javascript
+const isOK = (max) => {
+  if (nums[0] > max) return false
+
+  const nums = [..._nums]
+
+  for (let i = N - 1; i >= 1; i -= 1) {
+    let prv = nums[i - 1]
+    let cur = nums[i]
+
+    if (cur < max) continue
+
+    const diff = cur - max
+    nums[i - 1] += diff
+    nums[i] -= diff
+  }
+
+  return nums[0] <= max
+}
+```
+
+## 🔥📏 My Solution
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+var minimizeArrayValue = function (_nums) {
+  const N = _nums.length
+
+  const isOK = (max) => {
+    if (_nums[0] > max) return false
+
+    const nums = [..._nums]
+
+    for (let i = N - 1; i >= 1; i -= 1) {
+      let prv = nums[i - 1]
+      let cur = nums[i]
+
+      if (cur < max) continue
+
+      const diff = cur - max
+      nums[i - 1] += diff
+      nums[i] -= diff
+    }
+
+    return nums[0] <= max
+  }
+
+  let left = Math.min(..._nums)
+  let right = 10 ** 9
+
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2)
+
+    if (isOK(mid)) {
+      right = mid - 1
+    } else {
+      left = mid + 1
+    }
+  }
+  return left
+}
+```
+
+### 🙆‍♂️ Time complexity: `O(n log n)`

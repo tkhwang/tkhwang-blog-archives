@@ -1,0 +1,137 @@
+---
+title: 'leetcode 652. Find Duplicate Subtrees | medium | tree | javascript'
+date: '2023-02-28'
+tags: ['medium', 'tree']
+draft: false
+summary: 'leetcode 652. Find Duplicate Subtrees | medium | tree | javascript'
+# images: ['/static/images/8.jpeg']
+layout: PostLayout
+readTime: '5 minute read'
+---
+
+## 🗒️ Problems
+
+[652. Find Duplicate Subtrees - Leetcode](https://leetcode.com/problems/find-duplicate-subtrees/)
+
+```
+Given the root of a binary tree, return all duplicate subtrees.
+
+For each kind of duplicate subtrees,
+you only need to return the root node of any one of them.
+
+Two trees are duplicate if they have the same structure with the same node values.
+```
+
+![img](https://assets.leetcode.com/uploads/2020/08/16/e1.jpg)
+
+```
+Input: root = [1,2,3,4,null,2,4,null,null,4]
+Output: [[2,4],[4]]
+```
+
+## 🤦‍♂️ First attempt
+
+- In `post-order` traversal, gather the node info and count them using hash.
+- `key` is constructed by `in-order` (`left:current:right`) style.
+
+```javascript
+var findDuplicateSubtrees = function (root) {
+  const seen = {}
+  const res = []
+
+  const dfs = (node) => {
+    if (!node) return null
+
+    const left = dfs(node.left)
+    const right = dfs(node.right)
+
+    // wrong key construction !!!
+    const key = `${left}${node.val}::${right}`
+    seen[key] = (seen[key] || 0) + 1
+
+    if (seen[key] === 2) res.push(node)
+
+    return key
+  }
+
+  dfs(root)
+
+  return res
+}
+```
+
+It fails.
+
+## 🥳 Think differently
+
+[great explanation on this in leetcode discussion](https://leetcode.com/problems/find-duplicate-subtrees/discuss/106011/Java-Concise-Postorder-Traversal-Solution/108467)
+
+- In-order traversal, the different trees can generate the same result.
+
+```
+       0
+      / \
+    0    #
+   / \
+  #   #
+inorder : [#0#0#]
+
+    0
+   / \
+ #    0
+     / \
+    #    #
+inorder : [#0#0#]
+```
+
+- Therefore it should be `pre-order` or `post-order`, not `in-order`.
+
+```javascript
+// pre-order => OK
+const key = `${left}${node.val}::${right}`
+// in-order => WRONG
+const key = `${node.val}:${left}:${right}`
+// post-order => OK
+const key = `${left}:${right}:${node.val}`
+```
+
+## 🔥 My Solution
+
+```javascript
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {TreeNode[]}
+ */
+var findDuplicateSubtrees = function (root) {
+  const seen = {}
+  const res = []
+
+  const dfs = (node) => {
+    if (!node) return null
+
+    const left = dfs(node.left)
+    const right = dfs(node.right)
+
+    const key = `${node.val}:${left}:${right}`
+    seen[key] = (seen[key] || 0) + 1
+
+    if (seen[key] === 2) res.push(node)
+
+    return key
+  }
+
+  dfs(root)
+
+  return res
+}
+```
+
+### 🙆‍♂️ Time complexity: `O(n)`

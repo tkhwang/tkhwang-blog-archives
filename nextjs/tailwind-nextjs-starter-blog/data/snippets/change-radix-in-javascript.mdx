@@ -1,0 +1,31 @@
+---
+title: divMod and Change Radix in javascript
+date: '2022-12-03'
+tags: ['algorithm', 'math']
+draft: false
+summary: divMod and Change Radix in javascript
+layout: PostSimple
+---
+
+## ✨ `divMod` equivalent in javascript
+
+```javascript
+const divMod = (num, base) => [Math.floor(num / base), num % base]
+```
+
+## ✨ change radix
+
+```javascript
+const radixChange = (num, base) => {
+  if (num === 0) return '0'
+
+  const nums = []
+
+  while (num) {
+    const [quotient, digit] = divMod(num, base)
+    num = quotient
+    nums.push(digit)
+  }
+  return nums.reverse().join('')
+}
+```

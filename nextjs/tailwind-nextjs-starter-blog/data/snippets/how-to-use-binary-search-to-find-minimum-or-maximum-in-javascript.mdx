@@ -1,0 +1,131 @@
+---
+title: How to use binary search to find minimum or maximum in javascript
+date: '2023-01-02'
+tags: ['algorithm', 'binary-search', 'general-binary-search']
+draft: true
+summary: How to use binary search to find minimum or maximum in javascript
+images: []
+layout: PostSimple
+---
+
+It shows how to use binary search in more generalized ways to find the minimum value in javascript.
+
+## 🙋‍♂️ 0. Requirements
+
+- The condition should show the monotonicity.
+
+## ⬇️ (MIN) 1. Find minimum Algorithm
+
+```
+    [left, ...                                    right)
+                -------------------------------------
+                |
+                |<--- isOK(position) === true --->
+      -----------
+ ...  left - 1, [left, right]
+```
+
+- We will find the minimum `left` which meets the condition `isOK(position)` by binary search.
+- `left` is the minimum which meets the condition `isOK(position)`.
+- The answer will be `left`.
+
+```javascript
+const bisectGeneralMin = (array) => {
+  let left = MIN_SEARCH_SPACE
+  let right = MAX_SEARCH_SPACE + 1
+
+  const isOK = (value) => {
+    // decision logic
+    return true
+  }
+
+  while (left < right) {
+    const mid = Math.floor((left + right) / 2)
+
+    if (isOK(mid)) {
+      // Because mid is checked to be OK, now mid should be the upper bound. [..., mid]
+      right = mid
+    } else {
+      // Now mid is not OK, so that we need to check from [mid + 1, ...].
+      left = mid + 1
+    }
+  }
+
+  // After exiting the while loop,
+  // left is the minimal k​ satisfying the condition function;
+  return left
+}
+```
+
+### ⬇️🗒️ (MIN) 2. Find Minimum Typical problems
+
+- [#general-binary-search](https://tkhwang.me/tags/general-binary-search)
+- [540. Single Element in a Sorted Array - LeetCode](https://leetcode.com/problems/single-element-in-a-sorted-array/)
+- [875. Koko Eating Bananas - Leetcode](https://leetcode.com/problems/koko-eating-bananas/)
+- [1011. Capacity To Ship Packages Within D Days - Leetcode](https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/)
+- [1760. Minimum Limit of Balls in a Bag - Leetcode](https://leetcode.com/problems/minimum-limit-of-balls-in-a-bag/)
+
+## ⬆️ (MAX) 1. Find maximum Algorithm
+
+```
+    [left, ...                                    right)
+                -------------------------------------
+                |
+                |<--- isFail(position) === true --->
+      -----------
+                [left, right]
+
+       left - 1]
+```
+
+- We will find the minimum `left` which meets the condition `isFail(position)` by binary search.
+- `left` is the minimum which meets the condition `isFail(position)`.
+- Therefore the original answer which meet the condition is `left - 1`.
+
+#### 🔥 Note
+
+- The reason why `isFail(position)` is used for finding the maximum is for using the same binary search algorithm as for finding the mininum value.
+- The only difference is the final answer `left` for minimum and `left -1` for maximum.
+
+```javascript
+const bisectGeneralMax = (array) => {
+  let left = MIN_SEARCH_SPACE
+  let right = MAX_SEARCH_SPACE + 1
+
+  const isFail = (value) => {
+    // decision logic
+    return true
+  }
+
+  while (left < right) {
+    const mid = Math.floor((left + right) / 2)
+
+    if (isFail(mid)) {
+      // Because mid is checked to be OK, now mid should be the upper bound. [..., mid]
+      right = mid
+    } else {
+      // Now mid is not OK, so that we need to check from [mid + 1, ...].
+      left = mid + 1
+    }
+  }
+
+  // After exiting the while loop,
+  // left is the minimal k​ satisfying the condition isFail() function.
+  // Therefore the final answer is left - 1, which is the maximum that meets the original condition.
+  return left - 1
+}
+```
+
+### ⬆️🗒️ (MAX) 2. Find Minimum Typical problems
+
+- [1552. Magnetic Force Between Two Balls - Leetcode](https://leetcode.com/problems/magnetic-force-between-two-balls/)
+
+## 🏷️ Related tags
+
+- [#binary-search](https://tkhwang.me/tags/binary-search)
+- [#general-binary-search](https://tkhwang.me/tags/general-binary-search)
+
+## 📚 3. References
+
+- General concept: [Powerful Ultimate Binary Search Template. Solved many problems - Leetcode](https://leetcode.com/discuss/general-discussion/786126/Python-Powerful-Ultimate-Binary-Search-Template.-Solved-many-problems?utm_source=pocket_mylist)
+- `isOk()` and `isFail()` idea: [6 questions in one template of binary search - for beginners! - python](https://leetcode.com/problems/magnetic-force-between-two-balls/discuss/819165/6-questions-in-one-template-of-binary-search-for-beginners!-python)
